@@ -4,7 +4,6 @@ from datetime import datetime
 
 
 class Part(models.Model):
-    name = models.CharField(max_length=256)
     uid = models.CharField(max_length=64)
     initial_price = models.PositiveIntegerField()
 

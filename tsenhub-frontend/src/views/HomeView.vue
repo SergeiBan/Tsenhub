@@ -13,8 +13,7 @@ async function sendPricelist() {
   const formData = new FormData()
   formData.append('pricelist', pricelist.value)
   const response = await fetch('/api/v1/parts/add_parts/', { method: 'POST', body: formData })
-  const responseJson = response.json()
-  console.log(responseJson)
+  const responseJson = await response.json()
 }
 </script>
 
