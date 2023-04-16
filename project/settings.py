@@ -15,7 +15,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -28,9 +27,12 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'parts.apps.PartsConfig',
     'core.apps.CoreConfig',
-    'corsheaders'
+    'corsheaders',
+    'rest_framework.authtoken',
+    'rest_registration',
 
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -92,8 +94,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-ru'
 
 TIME_ZONE = 'UTC'
 
@@ -118,7 +119,23 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
     ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp_emails'
+
+
+REST_REGISTRATION = {
+    'REGISTER_VERIFICATION_URL': 'http://127.0.0.1/verify-user/',
+    'RESET_PASSWORD_VERIFICATION_URL': 'http://127.0.0.1/reset-password/',
+    'REGISTER_EMAIL_VERIFICATION_URL': 'http://127.0.0.1/verify-email/',
+
+    'VERIFICATION_FROM_EMAIL': 'no-reply@example.com',
+}

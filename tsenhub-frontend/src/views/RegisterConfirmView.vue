@@ -1,11 +1,27 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
+import router from '../router'
 
 const route = useRoute()
 
-onMounted(() => {
-    console.log(route.query, 'query')
+const confirmURL = ref('/api/accounts/verify-registration/')
+
+onMounted(async () => {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            user_id: route.query['user_id'],
+            timestamp: route.query['timestamp'],
+            signature: route.query['signature']
+        })
+    }
+    const response = await fetch(confirmURL.value, requestOptions)
+    if (response['status'] == 200) {
+        router.push('/home')
+    }
+    
 
 })
 </script>

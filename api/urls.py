@@ -10,5 +10,7 @@ router.register(r'parts', PartViewSet, basename='part')
 
 
 urlpatterns = [
-    path('v1/', include(router.urls))
+    path('accounts/', include('rest_registration.api.urls')),
+    path('v1/', include(router.urls)),
+
 ]

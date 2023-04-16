@@ -1,15 +1,17 @@
 <script setup>
 import { ref } from 'vue'
 import FiedErrors from '../components/FieldErrors.vue'
+import router from '../router'
+import EnterStatus from '../components/EnterStatus.vue'
 
 const email = ref(null)
 const username = ref(null)
 const password = ref(null)
-const passwordConfirm = ref(null)
-const submitURL = '/api/v1/accounts/register/'
+const password_confirm = ref(null)
+const submitURL = '/api/accounts/register/'
 
 const errors = {
-    email: null, username: null, password: null, passwordConfirm: null
+    email: null, username: null, password: null, password_confirm: null, non_field_errors: null
 }
 const has_errors = ref(false)
 
@@ -18,19 +20,23 @@ async function submitRegistraion() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            'email': email.value,
-            'username': username.value,
-            'password': password.value,
-            'password_confirm': passwordConfirm.value
+            email: email.value,
+            username: username.value,
+            password: password.value,
+            password_confirm: password_confirm.value
         })
     }
     const response = await fetch(submitURL, requestOptions)
-    console.log(response)
     const responseJSON = await response.json()
+    console.log(response)
     console.log(responseJSON)
 
+    if (response['status'] == 201) { 
+        router.push('/register-sent')
+    }
+
     has_errors.value = false
-    const fields = ['email', 'username', 'password', 'password_confirm']
+    const fields = ['email', 'username', 'password', 'password_confirm', 'non_field_errors']
     fields.forEach(element => {
         console.log(element, element in responseJSON, responseJSON)
         errors[`${element}`] = element in responseJSON ? responseJSON[element] : null
@@ -42,6 +48,8 @@ async function submitRegistraion() {
 <template>
 <h2>Регистрация</h2>
 <form @submit.prevent="submitRegistraion">
+    <FiedErrors :has_errors="has_errors" :errors="errors.non_field_errors" />
+
     <label for="email-field" class="form-label mb-2">Почта</label>
     <input type="email" v-model="email" required id="email-field" class="form-control mb-2">
     <FiedErrors :has_errors="has_errors" :errors="errors.email" />
@@ -54,9 +62,9 @@ async function submitRegistraion() {
     <input type="password" v-model="password" required id="password-field" class="form-control mb-2">
     <FiedErrors :has_errors="has_errors" :errors="errors.password" />
 
-    <label for="password-confirm-field" class="form-label mb-2">Пароль повторно</label>
-    <input type="password" v-model="passwordConfirm" required id="password-confirm-field" class="form-control mb-2">
-    <FiedErrors :has_errors="has_errors" :errors="errors.passwordConfirm" />
+    <label for="password_confirm-field" class="form-label mb-2">Пароль повторно</label>
+    <input type="password" v-model="password_confirm" required id="password_confirm-field" class="form-control mb-2">
+    <FiedErrors :has_errors="has_errors" :errors="errors.password_confirm" />
 
     <input type="submit" value="Зарегистрироваться" class="btn btn-info form-control">
 

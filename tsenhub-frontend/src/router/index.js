@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import RegisterConfirmView from '../views/RegisterConfirmView.vue'
+import RegisterSentView from '../views/RegisterSentView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +29,11 @@ const router = createRouter({
       name: 'verify-user',
       component: RegisterConfirmView
 
+    },
+    {
+      path: '/register-sent',
+      name: 'register-sent',
+      component: RegisterSentView
     }
   ]
 })

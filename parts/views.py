@@ -7,6 +7,7 @@ from datetime import datetime as dt
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from core.views import parse_quotes_request, prepare_quotes
 from django.http import FileResponse, HttpResponse
+from .permissions import IsInGroupPermission
 
 
 class ListRetrieveModelMixin(RetrieveModelMixin, ListModelMixin, viewsets.GenericViewSet):
@@ -54,11 +55,5 @@ class PartViewSet(ListRetrieveModelMixin):
         quotes = prepare_quotes(quote_requests)
 
         quotes.seek(0)
-
-        # response = HttpResponse(quotes)
-        # response["Content-Type"] = 'application/vnd.ms-excel'
-        # response['Content-Disposition'] = 'attachment; filename={}.xlsx'.format("data")
-        # return response
-
         return FileResponse(quotes, as_attachment=True, filename='Quotes.xlsx')
 

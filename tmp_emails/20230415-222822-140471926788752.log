@@ -1,0 +1,20 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?W2V4YW1wbGUuY29tXSDQn9C+0LbQsNC70YPQudGB0YLQsCDQv9C+0LTRgtCy0LU=?=
+ =?utf-8?b?0YDQtNC40YLQtSDQstCw0YggZS1tYWlsINCw0LTRgNC10YE=?=
+From: webmaster@localhost
+To: s@323ass2.ru
+Date: Sat, 15 Apr 2023 22:28:22 -0000
+Message-ID: <168159770283.527276.4647748599694919914@metro>
+
+Hello from example.com!
+
+You're receiving this e-mail because user s2fs3s has given your e-mail address to register an account on example.com.
+
+To confirm this is correct, go to http://127.0.0.1:8000/api/dj-rest-auth/registration/account-confirm-email/MTM:1pnoNa:HDu5_8qSxYY_EPQ-7lu3P1KkJXdPUveo57BwUvQ1xMM/
+
+Благодарим вас за использование сайта «example.com!»
+example.com
+-------------------------------------------------------------------------------
