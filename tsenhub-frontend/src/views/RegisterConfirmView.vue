@@ -7,6 +7,7 @@ import EnterStatus from '../components/EnterStatus.vue';
 const route = useRoute()
 
 const confirmURL = ref('/api/accounts/verify-registration/')
+const emit = defineEmits(['login'])
 
 onMounted(async () => {
     if (!route.query) { router.push('/') }
@@ -21,6 +22,10 @@ onMounted(async () => {
     }
     const response = await fetch(confirmURL.value, requestOptions)
     if (response['status'] == 200) {
+        const responseJSON = await response.json()
+        const token = responseJSON['token']
+        window.localStorage.setItem('token', token)
+        emit('login', true)
         router.push('/register-final')
     }
     router.push('/')

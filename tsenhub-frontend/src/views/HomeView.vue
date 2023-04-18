@@ -1,9 +1,7 @@
 <script setup>
 import { ref } from 'vue'
-import TheWelcome from '../components/TheWelcome.vue'
 
 let pricelist = ref(null)
-
 
 function addPricelist(event) {
   pricelist.value = event.target.files[0]
@@ -24,6 +22,5 @@ async function sendPricelist() {
       <input type="submit">
 
     </form>
-    <TheWelcome />
   </main>
 </template>

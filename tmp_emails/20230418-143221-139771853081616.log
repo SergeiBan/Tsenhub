@@ -1,0 +1,15 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Please verify your account
+From: no-reply@example.com
+To: s@s2df22.ru
+Reply-To: no-reply@example.com
+Date: Tue, 18 Apr 2023 14:32:21 -0000
+Message-ID: <168182834112.158451.4548736576146766365@metro>
+
+Please verify your account by clicking on this link:
+
+http://127.0.0.1/verify-user/?user_id=4&timestamp=1681828341&signature=gLIaWeB-5KMwaVpHg4lZoPTX1WYpVtTzxOr4T9Tss84
+
+-------------------------------------------------------------------------------

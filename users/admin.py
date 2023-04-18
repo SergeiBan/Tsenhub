@@ -9,10 +9,10 @@ User = get_user_model()
 
 
 class CustomUserAdmin(UserAdmin):
-    # add_form = CustomUserCreationForm
-    # form = CustomUserChangeForm
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
     model = User
-    list_display = ('username', 'email', 'plan')
+    list_display = ('username', 'email', 'plan', 'is_active')
     list_filter = ('plan',)
 
     fieldsets = (
@@ -27,7 +27,7 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ("email", "username", "password", "plan"),
+            'fields': ("email", "username", "password1", "password2", "plan"),
         }),
         ('Статус', {
             'fields': ('is_active',)

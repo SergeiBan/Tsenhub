@@ -44,8 +44,8 @@ async function submitRegistraion() {
 </script>
 
 <template>
-<h2>Регистрация</h2>
-<form @submit.prevent="submitRegistraion">
+<h2 class="col">Регистрация</h2>
+<form @submit.prevent="submitRegistraion" class="col-md-6">
     <FiedErrors :has_errors="has_errors" :errors="errors.non_field_errors" />
 
     <label for="email-field" class="form-label mb-2">Почта</label>
@@ -64,7 +64,7 @@ async function submitRegistraion() {
     <input type="password" v-model="password_confirm" required id="password_confirm-field" class="form-control mb-2">
     <FiedErrors :has_errors="has_errors" :errors="errors.password_confirm" />
 
-    <input type="submit" value="Зарегистрироваться" class="btn btn-info form-control">
+    <input type="submit" value="Зарегистрироваться" class="btn btn-info form-control mt-4">
 
 </form>
 </template>

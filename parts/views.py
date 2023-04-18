@@ -7,11 +7,12 @@ from datetime import datetime as dt
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from core.views import parse_quotes_request, prepare_quotes
 from django.http import FileResponse, HttpResponse
-from .permissions import IsInGroupPermission
+from .permissions import IsOnPlanPermission
 
 
 class ListRetrieveModelMixin(RetrieveModelMixin, ListModelMixin, viewsets.GenericViewSet):
     pass
+
 
 class PartViewSet(ListRetrieveModelMixin):
     queryset = Part.objects.all()
@@ -21,8 +22,10 @@ class PartViewSet(ListRetrieveModelMixin):
         if self.action == 'post':
             return PriceListSerializer
         return PartSerializer
-    
-    @action(detail=False, methods=['post'])
+
+    @action(
+            detail=False, methods=['post'],
+            permission_classes=[IsOnPlanPermission])
     def add_parts(self, request):
         pricelist_file = request.FILES['pricelist'].read()
         parsed_pricelist = Part.get_parts(pricelist_file)
@@ -45,15 +48,20 @@ class PartViewSet(ListRetrieveModelMixin):
 
         time2 = dt.now()
         print(time2 - time1)
-       
+
         return response.Response(data={'Файл получен'}, status=HTTPStatus.OK)
-    
-    @action(detail=False, methods=['post'])
+
+    @action(
+        detail=False, methods=['post'],
+        permission_classes=[IsOnPlanPermission]
+    )
     def generate_quotes(self, request):
         quotes_request_file = request.FILES['quotes_request'].read()
+        print('read')
         quote_requests = parse_quotes_request(quotes_request_file)
+        plan = request.user.plan
+        print(plan)
         quotes = prepare_quotes(quote_requests)
 
         quotes.seek(0)
         return FileResponse(quotes, as_attachment=True, filename='Quotes.xlsx')
-

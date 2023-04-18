@@ -5,6 +5,8 @@ import RegisterView from '../views/RegisterView.vue'
 import RegisterConfirmView from '../views/RegisterConfirmView.vue'
 import RegisterSentView from '../views/RegisterSentView.vue'
 import RegisterFinalView from '../views/RegisterFinalView.vue'
+import LogoutView from '../views/LogoutView.vue'
+import LoginView from '../views/LoginView.vue'
 
 
 const router = createRouter({
@@ -43,6 +45,16 @@ const router = createRouter({
       path: '/register-final',
       name: 'register-final',
       component: RegisterFinalView
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: LogoutView
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
     }
   ]
 })
