@@ -2,12 +2,14 @@
 import { useRoute } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import router from '../router'
+import EnterStatus from '../components/EnterStatus.vue';
 
 const route = useRoute()
 
 const confirmURL = ref('/api/accounts/verify-registration/')
 
 onMounted(async () => {
+    if (!route.query) { router.push('/') }
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -19,13 +21,9 @@ onMounted(async () => {
     }
     const response = await fetch(confirmURL.value, requestOptions)
     if (response['status'] == 200) {
-        router.push('/home')
+        router.push('/register-final')
     }
-    
+    router.push('/')
 
 })
 </script>
-
-<template>
-    <h1>Hihi</h1>
-</template>

@@ -28,8 +28,6 @@ async function submitRegistraion() {
     }
     const response = await fetch(submitURL, requestOptions)
     const responseJSON = await response.json()
-    console.log(response)
-    console.log(responseJSON)
 
     if (response['status'] == 201) { 
         router.push('/register-sent')

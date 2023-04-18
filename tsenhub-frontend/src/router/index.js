@@ -4,6 +4,7 @@ import AboutView from '../views/AboutView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import RegisterConfirmView from '../views/RegisterConfirmView.vue'
 import RegisterSentView from '../views/RegisterSentView.vue'
+import RegisterFinalView from '../views/RegisterFinalView.vue'
 
 
 const router = createRouter({
@@ -33,7 +34,15 @@ const router = createRouter({
     {
       path: '/register-sent',
       name: 'register-sent',
-      component: RegisterSentView
+      component: RegisterSentView,
+      beforeEnter(to, from) {
+        if (from['path'] != '/register') { return false }
+      }
+    },
+    {
+      path: '/register-final',
+      name: 'register-final',
+      component: RegisterFinalView
     }
   ]
 })

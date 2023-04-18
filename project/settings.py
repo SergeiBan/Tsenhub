@@ -13,6 +13,7 @@ SECRET_KEY = 'django-insecure-47mx_qe)x_3pnl6$)1q0z5#t9cup^_tkrmlb3%xh*t(^c90)x)
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1']
 
 
 INSTALLED_APPS = [
@@ -138,4 +139,6 @@ REST_REGISTRATION = {
     'REGISTER_EMAIL_VERIFICATION_URL': 'http://127.0.0.1/verify-email/',
 
     'VERIFICATION_FROM_EMAIL': 'no-reply@example.com',
+    'REGISTER_VERIFICATION_AUTO_LOGIN': True,
+    'REGISTER_VERIFICATION_ONE_TIME_USE': True
 }
