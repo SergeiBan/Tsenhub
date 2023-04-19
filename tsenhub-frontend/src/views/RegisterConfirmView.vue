@@ -2,7 +2,6 @@
 import { useRoute } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import router from '../router'
-import EnterStatus from '../components/EnterStatus.vue';
 
 const route = useRoute()
 
@@ -27,8 +26,7 @@ onMounted(async () => {
         window.localStorage.setItem('token', token)
         emit('login', true)
         router.push('/register-final')
-    }
-    router.push('/')
+    } else { router.push('/') }
 
 })
 </script>

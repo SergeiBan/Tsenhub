@@ -3,15 +3,18 @@ import { ref } from 'vue'
 
 let quote_request_list = ref(null)
 let downloadLink = ref(null)
+const token = window.localStorage.getItem('token')
 
 function addQuoteRequests(event) {
   quote_request_list.value = event.target.files[0]
 }
 
 async function sendPricelist() {
+  console.log(token)
   const formData = new FormData()
   formData.append('quotes_request', quote_request_list.value)
-  const response = await fetch('/api/v1/parts/generate_quotes/', { method: 'POST', body: formData })
+  const headers = {'Authorization': `Token ${token}`}
+  const response = await fetch('/api/v1/parts/generate_quotes/', { method: 'POST', body: formData, headers: headers})
   const responseBlob = await response.blob()
   const blobUrl = URL.createObjectURL(responseBlob)
 

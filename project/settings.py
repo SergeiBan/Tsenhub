@@ -137,6 +137,7 @@ REST_REGISTRATION = {
     'REGISTER_VERIFICATION_URL': 'http://127.0.0.1/verify-user/',
     'RESET_PASSWORD_VERIFICATION_URL': 'http://127.0.0.1/reset-password/',
     'REGISTER_EMAIL_VERIFICATION_URL': 'http://127.0.0.1/verify-email/',
+    'REGISTER_SERIALIZER_CLASS': 'users.serializers.CustomUserRegisterSerializer',
 
     'VERIFICATION_FROM_EMAIL': 'no-reply@example.com',
     'REGISTER_VERIFICATION_AUTO_LOGIN': True,

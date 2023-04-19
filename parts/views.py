@@ -57,11 +57,8 @@ class PartViewSet(ListRetrieveModelMixin):
     )
     def generate_quotes(self, request):
         quotes_request_file = request.FILES['quotes_request'].read()
-        print('read')
         quote_requests = parse_quotes_request(quotes_request_file)
-        plan = request.user.plan
-        print(plan)
-        quotes = prepare_quotes(quote_requests)
+        quotes = prepare_quotes(quote_requests, request.user)
 
         quotes.seek(0)
         return FileResponse(quotes, as_attachment=True, filename='Quotes.xlsx')

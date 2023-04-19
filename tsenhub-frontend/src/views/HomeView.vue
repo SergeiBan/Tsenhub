@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 let pricelist = ref(null)
+const token = window.localStorage.getItem('token')
 
 function addPricelist(event) {
   pricelist.value = event.target.files[0]
@@ -10,7 +11,8 @@ function addPricelist(event) {
 async function sendPricelist() {
   const formData = new FormData()
   formData.append('pricelist', pricelist.value)
-  const response = await fetch('/api/v1/parts/add_parts/', { method: 'POST', body: formData })
+  const headers = {'Authorization': `Token ${token}`}
+  const response = await fetch('/api/v1/parts/add_parts/', { method: 'POST', body: formData, headers: headers })
   const responseJson = await response.json()
 }
 </script>

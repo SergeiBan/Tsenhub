@@ -19,12 +19,20 @@ class Plan(models.Model):
         return f'{self.discount} {self.name}'
 
 
+ROLE_CHOICES = (
+    ('seeker', 'покупатель'),
+    ('supplier', 'продавец')
+)
+
+
 class CustomUser(AbstractUser):
     plan = models.ForeignKey(
         Plan, null=True, blank=True, on_delete=models.SET_NULL,
         related_name='users'
     )
     email = models.EmailField('Почта', unique=True)
+    role = models.CharField(
+        max_length=32, choices=ROLE_CHOICES, default='seeker')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
