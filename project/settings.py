@@ -7,6 +7,7 @@ from datetime import timedelta
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+THIS_HOST = 'http://127.0.0.1'
 
 
 SECRET_KEY = 'django-insecure-47mx_qe)x_3pnl6$)1q0z5#t9cup^_tkrmlb3%xh*t(^c90)x)'
@@ -14,7 +15,7 @@ SECRET_KEY = 'django-insecure-47mx_qe)x_3pnl6$)1q0z5#t9cup^_tkrmlb3%xh*t(^c90)x)
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1']
+CSRF_TRUSTED_ORIGINS = [THIS_HOST]
 
 
 INSTALLED_APPS = [
@@ -31,9 +32,6 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'corsheaders',
     'rest_framework_simplejwt',
-    # 'rest_framework.authtoken',
-    # 'rest_registration',
-
 ]
 
 
@@ -135,7 +133,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp_emails'
 
-THIS_HOST = 'http://127.0.0.1'
 FROM_EMAIL = 'info@zapchastitsa.ru'
 
 SIMPLE_JWT = {

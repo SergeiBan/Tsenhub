@@ -29,15 +29,16 @@ class PartViewSet(ListRetrieveModelMixin):
             permission_classes=[permissions.IsAuthenticated])
     def add_parts(self, request):
         pricelist_file = request.FILES['pricelist'].read()
-        parsed_pricelist = Part.get_parts(pricelist_file)
-
-        t0 = dt.now()
+        try:
+            parsed_pricelist = Part.get_parts(pricelist_file)
+        except Exception:
+            return response.Response(
+                {'detail': 'Ошибка обработки файла'},
+                status=HTTPStatus.UNPROCESSABLE_ENTITY)
         Part.objects.all().delete()
 
         CHUNK_SIZE = 1000
         chunks_amount = len(parsed_pricelist) // CHUNK_SIZE
-        time1 = dt.now()
-        print(time1 - t0)
 
         for i in range(chunks_amount):
             if i == chunks_amount - 1:
@@ -47,9 +48,6 @@ class PartViewSet(ListRetrieveModelMixin):
             new_part_objs = (Part(**obj) for obj in parsed_pricelist[i*CHUNK_SIZE:(i+1)*CHUNK_SIZE])
             Part.objects.bulk_create(new_part_objs)
 
-        time2 = dt.now()
-        print(time2 - time1)
-
         return response.Response(data={'Файл получен'}, status=HTTPStatus.OK)
 
     @action(
@@ -58,7 +56,12 @@ class PartViewSet(ListRetrieveModelMixin):
     )
     def generate_quotes(self, request):
         quotes_request_file = request.FILES['quotes_request'].read()
-        quote_requests = parse_quotes_request(quotes_request_file)
+        try:
+            quote_requests = parse_quotes_request(quotes_request_file)
+        except Exception:
+            return response.Response(
+                {'detail': 'Ошибка обработки файла'},
+                status=HTTPStatus.UNPROCESSABLE_ENTITY)
         quotes = prepare_quotes(quote_requests, request.user)
 
         quotes.seek(0)

@@ -4,6 +4,7 @@ from django.apps import apps
 
 
 def parse_pricelist(pricelist):
+
     df = pd.read_csv(
         io.BytesIO(pricelist),
         usecols=['article_', 'netprice_dso'], sep=',', decimal=','

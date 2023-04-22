@@ -24,7 +24,7 @@ async function tokenUpdatedRequest(URL, requestOptions) {
     }
     access = new_access
     requestOptions.headers.Authorization = `Bearer ${access}`
-    response = await fetch(URL, requestOptions)
+    const response = await fetch(URL, requestOptions)
     return response
 }
 
@@ -94,17 +94,28 @@ async function get_next() {
 </script>
 
 <template>
-<p>Отметьте заказчиков, затем выберите для них тариф из выпадающего списка</p>
-<select name="plans" id="" class="form-select mb-4" v-model="selectedPlan" @change="planChange">
-    <option v-for="plan in plans" :key="plan.id" :value="plan.pk">{{ plan.discount }}%: {{ plan.name }}</option>
-</select>
-
-<div class="col mb-2">
-    <a v-if="prevURL" class="btn btn-info" @click="get_prev">Пред.</a>
-    <a v-if="nextURL" class="btn btn-info" @click="get_next">След.</a>
+<div class="col-12">
+    <p>Отметьте заказчиков, затем выберите для них тариф из выпадающего списка</p>
+</div>
+<div class="col-12 mb-4">
+    <select name="plans" id="" class="form-select" v-model="selectedPlan" @change="planChange">
+        <option v-for="plan in plans" :key="plan.id" :value="plan.pk">{{ plan.discount }}%: {{ plan.name }}</option>
+    </select>    
 </div>
 
-<div class="list-group col">
+
+<div class="col-12 mb-2">
+    <div class="row justify-content-between">
+        <div class="col-4">
+            <button v-if="prevURL" class="btn btn-info w-100" @click="get_prev">Пред.</button>
+        </div>
+        <div class="col-4">
+            <button v-if="nextURL" class="btn btn-info w-100" @click="get_next">След.</button>
+        </div>
+    </div>
+</div>
+
+<div class="list-group col-12">
     <label class="list-group-item" v-for="user in users" :key="user.id">
         <input type="checkbox" class="form-check-input me-1" :name="user.email"
         v-model="selectedUsers" :id="user.email" :value="user.pk" @change="printCheckbox">

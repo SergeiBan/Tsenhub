@@ -9,6 +9,8 @@ let downloadLink = ref(null)
 const generateURL = '/api/v1/parts/generate_quotes/'
 let access = window.localStorage.getItem('access')
 
+const status = ref(null)
+
 function addQuoteRequests(event) {
   quote_request_list.value = event.target.files[0]
 }
@@ -37,24 +39,34 @@ async function sendQuotesRequest() {
   if (response['status'] == 401) {
     response = await tokenUpdatedRequest(generateURL, requestOptions)
   }
+  if (response['status'] != 200) {
+    status.value = 'Извините, но при загрузке произошла ошибка'
+    return
+  }
 
   const responseBlob = await response.blob()
   const blobUrl = URL.createObjectURL(responseBlob)
-
-  var link = document.createElement("a"); // Or maybe get it from the current document
-  link.href = blobUrl;
-  link.download = "123.xlsx";
-  link.innerHTML = "Click here to download the file";
-  document.body.appendChild(link); // Or append it whereever you want
+  downloadLink.value = blobUrl;
 }
 
 </script>
 
 <template>
-  <p>Для получения цен необходимо загрузить файл xlsx.</p>
-  <form @submit.prevent="sendQuotesRequest">
-    <input type="file" @change="addQuoteRequests">
-    <input type="submit">
-  </form>
-  <a v-if="downloadLink" :href="downloadLink" download="Стоимость.xlsx"></a>
+  <div class="col-12">
+    <p>Для получения цен необходимо загрузить файл xlsx.</p>
+  </div>
+  <div class="col-12">
+    <p>Файл должен содержать две колонки. В первой - артикулы, во второй - количество запчастей.</p>
+  </div>
+  <div class="col-md-10 offset-md-1">  
+    <form @submit.prevent="sendQuotesRequest" class="mb-4">
+      <input type="file" @change="addQuoteRequests" class="form-control mb-2">
+      <input type="submit" class="form-control btn btn-info">
+    </form>
+  </div>
+  <div class="col-12" v-if="status"><p>{{ status }}</p></div>
+  <div class="col-12">
+    <a v-if="downloadLink" :href="downloadLink" download="Стоимость.xlsx" class="btn btn-primary w-100">
+  Скачать таблицу цен</a>
+  </div>
 </template>

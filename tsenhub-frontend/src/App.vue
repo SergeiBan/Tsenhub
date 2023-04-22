@@ -22,14 +22,15 @@ onMounted(async () => {
     <div class="col">
       <nav class="nav nav-pills navbar-light navbar-expand-lg bg-light">
         <RouterLink v-if="is_logged == true && role == 'supplier'" to="/users-plans" class="nav-item nav-link">Назначить тариф</RouterLink>
-        <RouterLink v-if="is_logged == true && role == 'supplier'" to="/" class="nav-item nav-link">Добавить прайслист</RouterLink>
-        <RouterLink v-if="is_logged == true" to="/about" class="nav-item nav-link">Получить цены</RouterLink>
+        <RouterLink v-if="is_logged == true && role == 'supplier'" to="/add-pricelist" class="nav-item nav-link">Добавить прайслист</RouterLink>
+        <RouterLink v-if="is_logged == true" to="/ask-quotes" class="nav-item nav-link">Получить цены</RouterLink>
         <RouterLink v-if="is_logged == true" to="/logout" class="nav-item nav-link">Выйти</RouterLink>
         <RouterLink v-if="is_logged == false" to="/register" class="nav-item nav-link">Регистрация</RouterLink>
         <RouterLink v-if="is_logged == false" to="/login" class="nav-item nav-link">Вход</RouterLink>
       </nav>
     </div>
   </header>
-
-  <RouterView class="row" @login="(status) => is_logged = status"/>
+  <main class="row">
+    <RouterView @login="(status) => is_logged = status"/>
+  </main>
 </template>
