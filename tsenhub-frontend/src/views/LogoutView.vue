@@ -5,7 +5,10 @@ import router from '../router'
 const emit = defineEmits(['login'])
 
 onMounted(() => {
-    window.localStorage.removeItem('token')
+    window.localStorage.removeItem('access')
+    window.localStorage.removeItem('refresh')
+    window.localStorage.removeItem('role')
+
     emit('login', false)
     router.push('/')
 })

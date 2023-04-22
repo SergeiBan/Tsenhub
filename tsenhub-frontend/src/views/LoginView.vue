@@ -5,7 +5,7 @@ import router from '../router'
 
 const email = ref(null)
 const password = ref(null)
-const submitURL = '/api/accounts/login/'
+const submitURL = '/api/token/'
 
 const emits = defineEmits(['login'])
 
@@ -19,7 +19,7 @@ async function submitLogin() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            login: email.value,
+            email: email.value,
             password: password.value,
         })
     }
@@ -27,7 +27,9 @@ async function submitLogin() {
     const responseJSON = await response.json()
 
     if (response['status'] == 200) {
-        window.localStorage.setItem('token', responseJSON['token'])
+        window.localStorage.setItem('access', responseJSON['access'])
+        window.localStorage.setItem('refresh', responseJSON['refresh'])
+        window.localStorage.setItem('role', responseJSON['role'])
         emits('login', true)
         router.push('/')
     }

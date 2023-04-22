@@ -1,8 +1,10 @@
 <script setup>
 import { ref } from 'vue'
+import { getResponse, refreshAccess } from '../js/helpers';
 
 let pricelist = ref(null)
-const token = window.localStorage.getItem('token')
+let access = window.localStorage.getItem('access')
+const pricelistURL = '/api/v1/parts/add_parts/'
 
 function addPricelist(event) {
   pricelist.value = event.target.files[0]
@@ -11,9 +13,22 @@ function addPricelist(event) {
 async function sendPricelist() {
   const formData = new FormData()
   formData.append('pricelist', pricelist.value)
-  const headers = {'Authorization': `Token ${token}`}
-  const response = await fetch('/api/v1/parts/add_parts/', { method: 'POST', body: formData, headers: headers })
-  const responseJson = await response.json()
+  const headers = {'Authorization': `Bearer ${access}`}
+  const requestOptions = { method: 'POST', body: formData, headers: headers }
+
+  let response = await fetch(pricelistURL, requestOptions)
+  if (response['status'] == 200) { return }
+
+  if (response['status'] == 401) {
+    let new_access = await refreshAccess()
+    if (new_access == 'refresh expired'){
+      emits('login', false)
+      router.push('/login')
+    }
+    access = new_access
+    requestOptions.headers.Authorization = `Bearer ${access}`
+    response = await fetch(pricelistURL, requestOptions)
+  }
 }
 </script>
 

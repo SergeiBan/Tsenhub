@@ -5,7 +5,7 @@ import router from '../router'
 
 const route = useRoute()
 
-const confirmURL = ref('/api/accounts/verify-registration/')
+const confirmURL = ref('/api/v1/users/verify-user/')
 const emit = defineEmits(['login'])
 
 onMounted(async () => {
@@ -14,16 +14,16 @@ onMounted(async () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            user_id: route.query['user_id'],
-            timestamp: route.query['timestamp'],
-            signature: route.query['signature']
+            token: route.query['token']
         })
     }
     const response = await fetch(confirmURL.value, requestOptions)
     if (response['status'] == 200) {
         const responseJSON = await response.json()
-        const token = responseJSON['token']
-        window.localStorage.setItem('token', token)
+        window.localStorage.setItem('access', responseJSON['access'])
+        window.localStorage.setItem('refresh', responseJSON['refresh'])
+        window.localStorage.setItem('role', responseJSON['role'])
+
         emit('login', true)
         router.push('/register-final')
     } else { router.push('/') }

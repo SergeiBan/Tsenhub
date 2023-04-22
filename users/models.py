@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator, MinValueValidator
+from users.managers import CustomUserManager
+from django.core.mail import send_mail
+from django.conf import settings
 
 
 class Plan(models.Model):
@@ -26,6 +29,8 @@ ROLE_CHOICES = (
 
 
 class CustomUser(AbstractUser):
+    username = None
+    entity = models.CharField(max_length=128)
     plan = models.ForeignKey(
         Plan, null=True, blank=True, on_delete=models.SET_NULL,
         related_name='users'
@@ -34,5 +39,22 @@ class CustomUser(AbstractUser):
     role = models.CharField(
         max_length=32, choices=ROLE_CHOICES, default='seeker')
 
+    objects = CustomUserManager()
+    confirmation_token = models.CharField(max_length=32, null=True, blank=True)
+
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['entity']
+
+    class Meta:
+        ordering = ('-date_joined',)
+
+    def send_register_confirmation(self, email, token):
+        send_mail(
+            subject='Подтверждение регистрации на Запчастице',
+            message=(
+                f'Для активации вашей учетной записи необходимо перейти по '
+                f'ссылке: {settings.THIS_HOST}/verify-user/?token={token}'
+            ),
+            from_email=settings.FROM_EMAIL,
+            recipient_list=[email]
+        )

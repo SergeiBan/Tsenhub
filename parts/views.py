@@ -19,13 +19,14 @@ class PartViewSet(ListRetrieveModelMixin):
     permission_classes = [permissions.AllowAny]
 
     def get_serializer_class(self):
+        """Добавляет в БД запчасти из файла."""
         if self.action == 'post':
             return PriceListSerializer
         return PartSerializer
 
     @action(
             detail=False, methods=['post'],
-            permission_classes=[IsOnPlanPermission])
+            permission_classes=[permissions.IsAuthenticated])
     def add_parts(self, request):
         pricelist_file = request.FILES['pricelist'].read()
         parsed_pricelist = Part.get_parts(pricelist_file)

@@ -12,12 +12,12 @@ class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = User
-    list_display = ('username', 'email', 'plan', 'is_active')
+    list_display = ('role', 'entity', 'email', 'plan', 'is_active')
     list_filter = ('plan',)
 
     fieldsets = (
         (None, {
-            "fields": ("email", "username", "password", "plan")
+            "fields": ('role', "email", "entity", "password", "plan")
         }),
         ('Статус', {
             'fields': ('is_active',)
@@ -27,12 +27,13 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ("email", "username", "password1", "password2", "plan"),
+            'fields': ('role', "email", "entity", "password1", "password2", "plan"),
         }),
         ('Статус', {
             'fields': ('is_active',)
         })
     )
+    ordering = ['entity', '-date_joined']
 
 
 class PlanAdmin(admin.ModelAdmin):

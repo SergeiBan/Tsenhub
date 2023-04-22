@@ -2,28 +2,32 @@
 import { ref } from 'vue'
 import FiedErrors from '../components/FieldErrors.vue'
 import router from '../router'
-import EnterStatus from '../components/EnterStatus.vue'
 
 const email = ref(null)
-const username = ref(null)
+const entity = ref(null)
 const password = ref(null)
 const password_confirm = ref(null)
-const submitURL = '/api/accounts/register/'
+const submitURL = '/api/v1/users/'
 
 const errors = {
-    email: null, username: null, password: null, password_confirm: null, non_field_errors: null
+    email: null, entity: null, password: null, password_confirm: null, non_field_errors: null
 }
 const has_errors = ref(false)
 
 async function submitRegistraion() {
+    if (password.value !== password_confirm.value) {
+        has_errors.value = true
+        errors.password = ['Пароли не совпадают']
+        errors.password_confirm = ['Пароли не совпадают']
+        return
+    }
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             email: email.value,
-            username: username.value,
-            password: password.value,
-            password_confirm: password_confirm.value
+            entity: entity.value,
+            password: password.value
         })
     }
     const response = await fetch(submitURL, requestOptions)
@@ -34,9 +38,8 @@ async function submitRegistraion() {
     }
 
     has_errors.value = false
-    const fields = ['email', 'username', 'password', 'password_confirm', 'non_field_errors']
+    const fields = ['email', 'entity', 'password', 'non_field_errors']
     fields.forEach(element => {
-        console.log(element, element in responseJSON, responseJSON)
         errors[`${element}`] = element in responseJSON ? responseJSON[element] : null
         has_errors.value = element in responseJSON ? true : has_errors.value
     });
@@ -52,9 +55,9 @@ async function submitRegistraion() {
     <input type="email" v-model="email" required id="email-field" class="form-control mb-2">
     <FiedErrors :has_errors="has_errors" :errors="errors.email" />
 
-    <label for="username-field" class="form-label mb-2">Название организации или ваше имя</label>
-    <input type="text" v-model="username" required id="username-field" class="form-control mb-2">
-    <FiedErrors :has_errors="has_errors" :errors="errors.username" />
+    <label for="entity-field" class="form-label mb-2">Название организации</label>
+    <input type="text" v-model="entity" required id="entity-field" class="form-control mb-2">
+    <FiedErrors :has_errors="has_errors" :errors="errors.entity" />
     
     <label for="password-field" class="form-label mb-2">Пароль</label>
     <input type="password" v-model="password" required id="password-field" class="form-control mb-2">

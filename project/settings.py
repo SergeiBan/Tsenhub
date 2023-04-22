@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 from dotenv import load_dotenv
+from datetime import timedelta
 
 
 load_dotenv()
@@ -29,8 +30,9 @@ INSTALLED_APPS = [
     'parts.apps.PartsConfig',
     'core.apps.CoreConfig',
     'corsheaders',
-    'rest_framework.authtoken',
-    'rest_registration',
+    'rest_framework_simplejwt',
+    # 'rest_framework.authtoken',
+    # 'rest_registration',
 
 ]
 
@@ -121,9 +123,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication'
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination'
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -132,15 +135,10 @@ CORS_ALLOW_ALL_ORIGINS = True
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp_emails'
 
+THIS_HOST = 'http://127.0.0.1'
+FROM_EMAIL = 'info@zapchastitsa.ru'
 
-REST_REGISTRATION = {
-    'REGISTER_VERIFICATION_URL': 'http://127.0.0.1/verify-user/',
-    'RESET_PASSWORD_VERIFICATION_URL': 'http://127.0.0.1/reset-password/',
-    'REGISTER_EMAIL_VERIFICATION_URL': 'http://127.0.0.1/verify-email/',
-    'REGISTER_SERIALIZER_CLASS': 'users.serializers.CustomUserRegisterSerializer',
-
-    'VERIFICATION_FROM_EMAIL': 'no-reply@example.com',
-    'REGISTER_VERIFICATION_AUTO_LOGIN': True,
-    'REGISTER_VERIFICATION_ONE_TIME_USE': True,
-
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(seconds=5),
+    'TOKEN_OBTAIN_SERIALIZER': 'users.serializers.CustomTokenObtainPairSerializer'
 }

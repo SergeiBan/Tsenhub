@@ -35,9 +35,10 @@ def prepare_quotes(quote_objs, customer):
     for part in parts:
         new_part = {}
         new_part['Артикул'] = part[0]
-        new_part['Цена за единицу'] = part[1] * (100 - discount)
+        piece_price = part[1] * (100 - discount)
+        new_part['Цена за единицу'] = piece_price
         amount = [obj[1] for obj in quote_objs if obj[0] == part[0]][0]
-        new_part['Итого'] = new_part['Цена за еденицу'] * amount
+        new_part['Итого'] = piece_price * amount
         result_parts.append(new_part)
 
     df = pd.DataFrame.from_dict(result_parts)

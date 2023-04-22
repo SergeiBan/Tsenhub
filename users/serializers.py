@@ -3,6 +3,8 @@ from rest_framework import serializers
 from django.utils import timezone
 from django.contrib.auth import get_user_model
 from users.models import Plan
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 User = get_user_model()
@@ -17,16 +19,18 @@ class UsernameField(serializers.Field):
         return f'{data} {timezone.now()}'
 
 
-class CustomUserRegisterSerializer(DefaultRegisterUserSerializer):
+class CustomUserRegisterSerializer(serializers.ModelSerializer):
 
-    username = UsernameField()
+    class Meta:
+        model = User
+        fields = ('email', 'entity', 'password', )
 
 
 class PlanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Plan
-        fields = ('discount', 'name')
+        fields = ('pk', 'discount', 'name')
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -35,4 +39,21 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'username', 'plan')
+        fields = ('pk', 'email', 'entity', 'plan')
+
+
+class UsersPlanSerializer(serializers.Serializer):
+    users = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), many=True
+    )
+    plan = serializers.PrimaryKeyRelatedField(
+        queryset=Plan.objects.all()
+    )
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        data['role'] = self.user.role
+        return data
