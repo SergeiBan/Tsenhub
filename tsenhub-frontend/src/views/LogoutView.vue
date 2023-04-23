@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import router from '../router'
 
-const emit = defineEmits(['login'])
+const emit = defineEmits(['login', 'role'])
 
 onMounted(() => {
     window.localStorage.removeItem('access')
@@ -10,6 +10,7 @@ onMounted(() => {
     window.localStorage.removeItem('role')
 
     emit('login', false)
+    emit('role', null)
     router.push('/')
 })
 </script>

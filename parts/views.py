@@ -3,14 +3,16 @@ from rest_framework.decorators import action
 from parts.models import Part
 from parts.serializers import PartSerializer, PriceListSerializer
 from http import HTTPStatus
-from datetime import datetime as dt
 from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from core.views import parse_quotes_request, prepare_quotes
-from django.http import FileResponse, HttpResponse
+from django.http import FileResponse
 from .permissions import IsOnPlanPermission
+from users.permissions import IsSupplier
 
 
-class ListRetrieveModelMixin(RetrieveModelMixin, ListModelMixin, viewsets.GenericViewSet):
+class ListRetrieveModelMixin(
+    RetrieveModelMixin, ListModelMixin, viewsets.GenericViewSet
+):
     pass
 
 
@@ -19,15 +21,15 @@ class PartViewSet(ListRetrieveModelMixin):
     permission_classes = [permissions.AllowAny]
 
     def get_serializer_class(self):
-        """Добавляет в БД запчасти из файла."""
         if self.action == 'post':
             return PriceListSerializer
         return PartSerializer
 
     @action(
             detail=False, methods=['post'],
-            permission_classes=[permissions.IsAuthenticated])
+            permission_classes=[IsSupplier])
     def add_parts(self, request):
+        """Добавляет в БД запчасти из файла."""
         pricelist_file = request.FILES['pricelist'].read()
         try:
             parsed_pricelist = Part.get_parts(pricelist_file)
@@ -42,10 +44,16 @@ class PartViewSet(ListRetrieveModelMixin):
 
         for i in range(chunks_amount):
             if i == chunks_amount - 1:
-                new_part_objs = (Part(**obj) for obj in parsed_pricelist[i*CHUNK_SIZE:len(parsed_pricelist)])
+                new_part_objs = (Part(**obj) for obj in parsed_pricelist[
+                    i*CHUNK_SIZE:len(parsed_pricelist)
+                ])
                 Part.objects.bulk_create(new_part_objs)
                 break
-            new_part_objs = (Part(**obj) for obj in parsed_pricelist[i*CHUNK_SIZE:(i+1)*CHUNK_SIZE])
+            new_part_objs = (
+                Part(**obj) for obj in parsed_pricelist[
+                    i*CHUNK_SIZE:(i+1)*CHUNK_SIZE
+                ]
+            )
             Part.objects.bulk_create(new_part_objs)
 
         return response.Response(data={'Файл получен'}, status=HTTPStatus.OK)

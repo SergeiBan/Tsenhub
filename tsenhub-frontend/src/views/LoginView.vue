@@ -7,10 +7,10 @@ const email = ref(null)
 const password = ref(null)
 const submitURL = '/api/token/'
 
-const emits = defineEmits(['login'])
+const emits = defineEmits(['login', 'roleAssigned'])
 
 const errors = {
-    email: null, password: null, non_field_errors: null
+    email: null, password: null, non_field_errors: null, detail: null
 }
 const has_errors = ref(false)
 
@@ -20,7 +20,7 @@ async function submitLogin() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             email: email.value,
-            password: password.value,
+            password: password.value
         })
     }
     const response = await fetch(submitURL, requestOptions)
@@ -31,15 +31,19 @@ async function submitLogin() {
         window.localStorage.setItem('refresh', responseJSON['refresh'])
         window.localStorage.setItem('role', responseJSON['role'])
         emits('login', true)
+        emits('roleAssigned', responseJSON['role'])
         router.push('/')
     }
 
+    const responseContent = Object.keys(responseJSON)
     has_errors.value = false
-    const fields = ['email', 'password', 'non_field_errors']
+    const fields = ['email', 'password', 'non_field_errors', 'detail']
     fields.forEach(element => {
-        errors[`${element}`] = element in responseJSON ? responseJSON[element] : null
-        has_errors.value = element in responseJSON ? true : has_errors.value
+        errors[`${element}`] = null
+        errors[`${element}`] =  responseContent.includes(element) ? responseJSON[element] : null
+        has_errors.value = responseContent.includes(element) ? true : has_errors.value
     });
+    return
 }
 </script>
 
@@ -47,6 +51,7 @@ async function submitLogin() {
 <h2>Вход</h2>
 <form @submit.prevent="submitLogin" class="col-md-6">
     <FiedErrors :has_errors="has_errors" :errors="errors.non_field_errors" />
+    <p v-if="errors.detail">{{ errors.detail }}</p>
 
     <label for="email-field" class="form-label mb-2">Почта</label>
     <input type="email" v-model="email" required id="email-field" class="form-control mb-2">

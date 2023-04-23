@@ -27,7 +27,9 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('role', "email", "entity", "password1", "password2", "plan"),
+            'fields': (
+                'role', "email", "entity", "password1", "password2", "plan"
+                ),
         }),
         ('Статус', {
             'fields': ('is_active',)

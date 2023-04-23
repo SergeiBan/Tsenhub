@@ -36,7 +36,6 @@ async function submitRegistraion() {
     if (response['status'] == 201) { 
         router.push('/register-sent')
     }
-
     has_errors.value = false
     const fields = ['email', 'entity', 'password', 'non_field_errors']
     fields.forEach(element => {
@@ -47,7 +46,7 @@ async function submitRegistraion() {
 </script>
 
 <template>
-<h2 class="col">Регистрация</h2>
+<h2 class="col-12">Регистрация</h2>
 <form @submit.prevent="submitRegistraion" class="col-md-6">
     <FiedErrors :has_errors="has_errors" :errors="errors.non_field_errors" />
 

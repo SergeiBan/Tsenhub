@@ -1,16 +1,15 @@
-from rest_framework import viewsets, response, views, permissions, status
+from rest_framework import viewsets, response, permissions, status
 from django.contrib.auth import get_user_model
 from users.serializers import (
     UserSerializer, PlanSerializer, UsersPlanSerializer,
     CustomUserRegisterSerializer, CustomTokenObtainPairSerializer)
 from users.models import Plan
-from rest_framework.settings import api_settings
 from rest_framework.decorators import action
-from rest_framework.pagination import PageNumberPagination
 from secrets import token_urlsafe
 from django.shortcuts import get_object_or_404
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+from users.permissions import AnonCreateAuthReadUpdate, IsSupplier
 
 
 User = get_user_model()
@@ -19,11 +18,12 @@ User = get_user_model()
 class UserViewSet(viewsets.ModelViewSet):
     """
     Все операции с пользователями.
-    При создании пользователя в его поле сохраняется код подтверждения.
+    При создании пользователя в его поле сохраняется код
+    будущего подтверждения регистрации.
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [AnonCreateAuthReadUpdate]
 
     def create(self, request, *args, **kwargs):
         serializer = CustomUserRegisterSerializer(data=request.data)
@@ -49,18 +49,22 @@ class UserViewSet(viewsets.ModelViewSet):
         user.save()
         refresh = RefreshToken.for_user(user)
         return response.Response({
-            'refresh': str(refresh), 'access': str(refresh.access_token)},
-            status=status.HTTP_200_OK)
+            'refresh': str(refresh), 'access': str(refresh.access_token),
+            'role': user.role}, status=status.HTTP_200_OK)
 
 
 class PlanViewSet(viewsets.ModelViewSet):
+    """Все операции с тарифами разрешены поставщикам."""
     queryset = Plan.objects.all()
     serializer_class = PlanSerializer
     pagination_class = None
+    permission_classes = [IsSupplier]
 
 
 class UpdateUsersPlanViewSet(viewsets.ViewSet):
-    """Изменяет скидочный тариф любому числу клиентов."""
+    """Изменяет скидочный тариф любому числу клиентов. Разрешено поставщику."""
+    permission_classes = [IsSupplier]
+
     def create(self, request):
         # queryset = User.objects.all()
         serializer = UsersPlanSerializer(data=request.data)

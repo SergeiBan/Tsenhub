@@ -55,7 +55,7 @@ async function sendQuotesRequest() {
   <div class="col-12">
     <p>Для получения цен необходимо загрузить файл xlsx.</p>
   </div>
-  <div class="col-12">
+  <div class="col-12 mb-5">
     <p>Файл должен содержать две колонки. В первой - артикулы, во второй - количество запчастей.</p>
   </div>
   <div class="col-md-10 offset-md-1">  

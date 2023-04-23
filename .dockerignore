@@ -1,0 +1,9 @@
+.vscode
+infra
+static
+dist
+venv
+.env
+.gitignore
+Dockerfile
+setup.cfg

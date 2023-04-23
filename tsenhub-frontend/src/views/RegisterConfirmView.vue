@@ -6,7 +6,7 @@ import router from '../router'
 const route = useRoute()
 
 const confirmURL = ref('/api/v1/users/verify-user/')
-const emit = defineEmits(['login'])
+const emit = defineEmits(['login', 'roleAssigned'])
 
 onMounted(async () => {
     if (!route.query) { router.push('/') }
@@ -25,6 +25,7 @@ onMounted(async () => {
         window.localStorage.setItem('role', responseJSON['role'])
 
         emit('login', true)
+        emit('roleAssigned', responseJSON['role'])
         router.push('/register-final')
     } else { router.push('/') }
 

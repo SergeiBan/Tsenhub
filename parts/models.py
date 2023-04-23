@@ -1,6 +1,5 @@
 from django.db import models
 from core.views import parse_pricelist
-from datetime import datetime
 
 
 class Part(models.Model):

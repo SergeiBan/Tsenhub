@@ -115,13 +115,13 @@ async function get_next() {
     </div>
 </div>
 
-<div class="list-group col-12">
+<div class="list-group col-md-8 offset-md-2">
     <label class="list-group-item" v-for="user in users" :key="user.id">
         <input type="checkbox" class="form-check-input me-1" :name="user.email"
-        v-model="selectedUsers" :id="user.email" :value="user.pk" @change="printCheckbox">
-        {{ user.username }}: {{ user.email }}
+        v-model="selectedUsers" :id="user.email" :value="user.pk">
+        {{ user.entity }}: {{ user.email }}
         <span v-if="user.plan" class="text-primary">{{ user.plan.discount }}%</span>
-        
+        <span v-else class="text-danger small">не назначено</span>
     </label>
 </div>
 

@@ -50,9 +50,9 @@ class CustomUser(AbstractUser):
 
     def send_register_confirmation(self, email, token):
         send_mail(
-            subject='Подтверждение регистрации на Запчастице',
+            subject='Registration confirmation',
             message=(
-                f'Для активации вашей учетной записи необходимо перейти по '
+                f'Для активации вашей учетной записи необходимо перейти по\n'
                 f'ссылке: {settings.THIS_HOST}/verify-user/?token={token}'
             ),
             from_email=settings.FROM_EMAIL,
