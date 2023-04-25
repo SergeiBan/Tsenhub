@@ -3,7 +3,9 @@ infra
 static
 dist
 venv
-.env
+**.env
 .gitignore
-Dockerfile
+**Dockerfile
 setup.cfg
+**docker-compose-prod.yml
+**.env-prod

@@ -1,4 +1,5 @@
 .env
+.env-prod
 venv/
 db.sqlite3
 node_modules

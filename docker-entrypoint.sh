@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Flushing the manage.py command"
 while ! python manage.py flush --no-input 2>&1; do
     sleep 3

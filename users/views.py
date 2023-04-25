@@ -40,7 +40,6 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(methods=['POST'], detail=False, url_path='verify-user')
     def verify_user(self, request):
         token = request.data.get('token')
-        print(token)
         if not token:
             return response.Response(status=status.HTTP_204_NO_CONTENT)
         user = get_object_or_404(User, confirmation_token=token)

@@ -9,7 +9,7 @@ class CustomUserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(
             email=email, entity=entity, password=password,
-            is_active=False, **extra_fields)
+            **extra_fields)
         user.set_password(password)
         user.save()
         return user
