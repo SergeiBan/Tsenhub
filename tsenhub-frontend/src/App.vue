@@ -8,7 +8,7 @@ let role = ref(null)
 onMounted(async () => {
   const access = window.localStorage.getItem('access')
   if (access) { 
-    is_logged.value = true 
+    is_logged.value = true
   }
   role.value = window.localStorage.getItem('role')
 })
@@ -23,6 +23,7 @@ onMounted(async () => {
       <nav class="nav nav-pills navbar-light navbar-expand-lg bg-light justify-content-between">
         <RouterLink v-if="is_logged == true && role == 'supplier'" to="/users-plans" class="nav-item nav-link">Назначить тариф</RouterLink>
         <RouterLink v-if="is_logged == true && role == 'supplier'" to="/add-pricelist" class="nav-item nav-link">Добавить прайслист</RouterLink>
+        <RouterLink v-if="is_logged == true && role == 'supplier'" to="/edit-plans" class="nav-item nav-link">Тарифы</RouterLink>
         <RouterLink v-if="is_logged == true" to="/ask-quotes" class="nav-item nav-link">Получить цены</RouterLink>
         
         <RouterLink v-if="is_logged == true" to="/logout" class="nav-item nav-link">Выйти</RouterLink>

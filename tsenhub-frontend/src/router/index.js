@@ -8,6 +8,7 @@ import RegisterFinalView from '../views/RegisterFinalView.vue'
 import LogoutView from '../views/LogoutView.vue'
 import LoginView from '../views/LoginView.vue'
 import UsersPlansView from '../views/UsersPlansView.vue'
+import EditPlansView from '../views/EditPlansView.vue'
 
 
 const router = createRouter({
@@ -61,6 +62,11 @@ const router = createRouter({
       path: '/users-plans',
       name: 'users-plans',
       component: UsersPlansView
+    },
+    {
+      path: '/edit-plans',
+      name: 'edit-plans',
+      component: EditPlansView
     }
   ]
 })

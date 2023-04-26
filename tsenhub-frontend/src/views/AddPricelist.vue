@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { getResponse, refreshAccess } from '../js/helpers';
+import { refreshAccess } from '../js/helpers';
 
 let pricelist = ref(null)
 let access = window.localStorage.getItem('access')

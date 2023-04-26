@@ -115,7 +115,7 @@ async function get_next() {
     </div>
 </div>
 
-<div class="list-group col-md-8 offset-md-2">
+<div class="col-md-8 offset-md-2">
     <label class="list-group-item" v-for="user in users" :key="user.id">
         <input type="checkbox" class="form-check-input me-1" :name="user.email"
         v-model="selectedUsers" :id="user.email" :value="user.pk">
