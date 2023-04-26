@@ -38,10 +38,4 @@ class CustomUserAdmin(UserAdmin):
     ordering = ['entity', '-date_joined']
 
 
-class PlanAdmin(admin.ModelAdmin):
-    list_display = ('discount', 'name')
-    list_filter = ('discount',)
-
-
-admin.site.register(Plan, PlanAdmin)
 admin.site.register(User, CustomUserAdmin)

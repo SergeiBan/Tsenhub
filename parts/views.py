@@ -7,7 +7,7 @@ from rest_framework.mixins import RetrieveModelMixin, ListModelMixin
 from core.views import parse_quotes_request, prepare_quotes
 from django.http import FileResponse
 from .permissions import IsOnPlanPermission
-from users.permissions import IsSupplier
+from plans.permissions import IsSupplier
 
 
 class ListRetrieveModelMixin(

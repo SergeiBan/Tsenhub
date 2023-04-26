@@ -9,3 +9,13 @@ class AnonCreateAuthReadUpdate(BasePermission):
              request.user.role == 'supplier')):
             return True
         return False
+
+
+class IsSupplier(BasePermission):
+    def has_permission(self, request, view):
+        if (
+            request.user.is_authenticated and
+            request.user.role == 'supplier'
+        ):
+            return True
+        return False

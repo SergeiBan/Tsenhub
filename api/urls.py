@@ -2,9 +2,9 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from parts.views import PartViewSet
 from users.views import (
-    UserViewSet, PlanViewSet, UpdateUsersPlanViewSet,
-    CustomTokenObtainPairView
+    UserViewSet, CustomTokenObtainPairView
 )
+from plans.views import PlanViewSet, UpdateUsersPlanViewSet
 from rest_framework_simplejwt.views import (
     TokenObtainPairView, TokenRefreshView
 )
