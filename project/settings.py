@@ -14,7 +14,7 @@ SECRET_KEY = 'django-insecure-47mx_qe)x_3pnl6$)1q0z5#t9cup^_tkrmlb3%xh*t(^c90)x)
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['109.120.188.205', 'localhost', '127.0.0.1', 'web']
+ALLOWED_HOSTS = ['109.120.188.205', 'localhost', '127.0.0.1', 'web', '172.17.0.1']
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', THIS_HOST]
 
 
@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'core.apps.CoreConfig',
     'corsheaders',
     'rest_framework_simplejwt',
+    'plans.apps.PlansConfig',
 ]
 
 
