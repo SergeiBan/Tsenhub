@@ -17,7 +17,10 @@ const router = createRouter({
     {
       path: '/add-pricelist',
       name: 'add-pricelist',
-      component: AddPricelist
+      component: AddPricelist,
+      beforeEnter(to, from) {
+        if (window.localStorage.getItem('role') != 'supplier') { return false }
+      }
     },
     {
       path: '/ask-quotes',
@@ -61,12 +64,18 @@ const router = createRouter({
     {
       path: '/users-plans',
       name: 'users-plans',
-      component: UsersPlansView
+      component: UsersPlansView,
+      beforeEnter(to, from) {
+        if (window.localStorage.getItem('role') != 'supplier') { return false }
+      }
     },
     {
       path: '/edit-plans',
       name: 'edit-plans',
-      component: EditPlansView
+      component: EditPlansView,
+      beforeEnter(to, from) {
+        if (window.localStorage.getItem('role') != 'supplier') { return false }
+      }
     }
   ]
 })

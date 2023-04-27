@@ -1,9 +1,9 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from users.models import Plan
 from django.contrib.auth import get_user_model
-from users.forms import CustomUserChangeForm, CustomUserCreationForm
+from django.contrib.auth.admin import UserAdmin
 
+from users.forms import CustomUserChangeForm, CustomUserCreationForm
+from users.models import Plan
 
 User = get_user_model()
 

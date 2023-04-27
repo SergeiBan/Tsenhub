@@ -1,14 +1,11 @@
-from django.urls import path, include
+from django.urls import include, path
 from rest_framework.routers import DefaultRouter
-from parts.views import PartViewSet
-from users.views import (
-    UserViewSet, CustomTokenObtainPairView
-)
-from plans.views import PlanViewSet, UpdateUsersPlanViewSet
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView, TokenRefreshView
-)
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
 
+from parts.views import PartViewSet
+from plans.views import PlanViewSet, UpdateUsersPlanViewSet
+from users.views import CustomTokenObtainPairView, UserViewSet
 
 router = DefaultRouter()
 

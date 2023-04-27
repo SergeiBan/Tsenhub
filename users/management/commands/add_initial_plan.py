@@ -1,6 +1,8 @@
-from django.core.management.base import BaseCommand
-from users.models import Plan
 from typing import Any
+
+from django.core.management.base import BaseCommand
+
+from users.models import Plan
 
 
 class Command(BaseCommand):

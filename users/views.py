@@ -1,16 +1,16 @@
-from rest_framework import viewsets, response, status
-from django.contrib.auth import get_user_model
-from users.serializers import (
-    UserSerializer, CustomUserRegisterSerializer,
-    CustomTokenObtainPairSerializer
-)
-from rest_framework.decorators import action
 from secrets import token_urlsafe
+
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
+from rest_framework import response, status, viewsets
+from rest_framework.decorators import action
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .permissions import AnonCreateAuthReadUpdate
 
+from users.serializers import (CustomTokenObtainPairSerializer,
+                               CustomUserRegisterSerializer, UserSerializer)
+
+from .permissions import AnonCreateAuthReadUpdate
 
 User = get_user_model()
 

@@ -1,10 +1,10 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-from users.managers import CustomUserManager
-from django.core.mail import send_mail
 from django.conf import settings
-from plans.models import Plan
+from django.contrib.auth.models import AbstractUser
+from django.core.mail import send_mail
+from django.db import models
 
+from plans.models import Plan
+from users.managers import CustomUserManager
 
 ROLE_CHOICES = (
     ('seeker', 'покупатель'),

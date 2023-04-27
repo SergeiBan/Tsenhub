@@ -2,13 +2,16 @@
 import { onMounted, ref } from 'vue'
 import { refreshAccess } from '../js/helpers';
 
+const emits = defineEmits(['logout'])
+
 const plansURL = '/api/v1/plans/'
-const selectedPlan = ref(null)
+const removePlansURL = '/api/v1/plans/remove_plans/'
 
 const discount = ref(null)
 const description = ref(null)
 
 const plans = ref(null)
+const selectedPlans = ref([])
 
 let access = window.localStorage.getItem('access')
 
@@ -34,9 +37,8 @@ async function addPlan() {
         })
     }
     let response = await fetch(plansURL, requestOptions)
-    const responseJSON = await response.json()
     if (response['status'] == 401) {
-        response = await tokenUpdatedRequest(userListURL, requestOptions)}
+        response = await tokenUpdatedRequest(plansURL, requestOptions)}
     await getPlans()
 }
 
@@ -51,29 +53,48 @@ async function getPlans() {
     plans.value = await response.json()
 }
 
+async function removePlans() {
+    const requestOptions = {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${access}` },
+        body: JSON.stringify({
+            plans: selectedPlans.value
+        })
+    }
+    let response = await fetch(removePlansURL, requestOptions)
+    if (response['status'] == 401) {
+        response = await tokenUpdatedRequest(removePlansURL, requestOptions)}
+    plans.value = await response.json()
+}
+
 onMounted(async () => {
     await getPlans()
 })
 </script>
 
 <template>
-    <p>Заполните поля, чтобы добавить новый тариф. Ненужные тарифы можно удалять в списке ниже.</p>
-    <form @submit.prevent="addPlan">
-        <label for="discount-field" class="form-label">Размер скидки в %</label>
-        <input type="number" step="0.01" min=0 class="form-control mb-2" id="discount-field" v-model="discount">
+    <div class="col-lg-6">
+        <p>Заполните поля, чтобы добавить новый тариф. Ненужные тарифы можно удалять в списке ниже.</p>
+        <form @submit.prevent="addPlan">
+            <label for="discount-field" class="form-label">Размер скидки в %</label>
+            <input type="number" step="0.01" min=0 class="form-control mb-2" id="discount-field" v-model="discount">
 
-        <label for="description-field" class="form-label">Название тарифа</label>
-        <input type="text" class="form-control mb-4" id="description-field" v-model="description">
+            <label for="description-field" class="form-label">Название тарифа</label>
+            <input type="text" class="form-control mb-4" id="description-field" v-model="description">
 
-        <input type="submit" class="form-control mb-5" value="Добавить тариф">
-    </form>
+            <input type="submit" class="form-control mb-5 btn btn-primary" value="Добавить тариф">
+        </form>
 
-    <div class="">
-
-        <label class="list-group-item mb-1" v-for="plan in plans" :id="plan.id">
-            <input type="checkbox" class="form-check-input me-1" :value="plan.pk" :name="all-plans">
-            {{ plan.discount }}% {{ plan.name }} <button class="btn btn-primary">Удалить</button>
-        </label>
+        <div class="mb-4">
+            <p>Удаляемые тарифы могут быть привязаны к покупателям.
+                Назначьте им новый тариф и они снова смогут запрашивать цены
+            </p>
+            <label class="list-group-item mb-1" v-for="plan in plans" :id="plan.id">
+                <input type="checkbox" class="form-check-input me-1" :value="plan.pk" :name="all-plans" v-model="selectedPlans">
+                {{ plan.discount }}% {{ plan.name }}
+            </label>
+        </div>
+        <button class="btn btn-danger w-100" @click="removePlans">Удалить выбранные тарифы</button>
     </div>
 </template>
 

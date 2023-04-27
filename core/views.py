@@ -1,4 +1,5 @@
 import io
+
 import pandas as pd
 from django.apps import apps
 
@@ -28,6 +29,7 @@ def parse_quotes_request(quotes_request_file):
 
 
 def prepare_quotes(quote_objs, customer):
+    print(quote_objs)
     discount = customer.plan.discount
     Part = apps.get_model('parts.Part')
     parts = Part.objects.filter(uid__in=[obj[0] for obj in quote_objs])

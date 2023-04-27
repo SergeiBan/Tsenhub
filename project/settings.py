@@ -1,8 +1,8 @@
-from pathlib import Path
 import os
-from dotenv import load_dotenv
 from datetime import timedelta
+from pathlib import Path
 
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -149,5 +149,7 @@ FROM_EMAIL = 'info@zapchastitsa.ru'
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'TOKEN_OBTAIN_SERIALIZER':
-        'users.serializers.CustomTokenObtainPairSerializer'
+        'users.serializers.CustomTokenObtainPairSerializer',
+    'TOKEN_REFRESH_SERIALIZER':
+        'users.serializers.CustomTokenRefreshSerializer'
 }
