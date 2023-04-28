@@ -5,6 +5,7 @@ from django.db import models
 
 from plans.models import Plan
 from users.managers import CustomUserManager
+from email.header import Header
 
 ROLE_CHOICES = (
     ('seeker', 'покупатель'),
@@ -33,11 +34,13 @@ class CustomUser(AbstractUser):
         ordering = ('-date_joined',)
 
     def send_register_confirmation(self, email, token):
+        h = Header(
+            'Запчастица: подтверждение регистрации', charset='utf-8')
         send_mail(
-            subject='Registration confirmation',
+            subject=h,
             message=(
-                f'Для активации вашей учетной записи необходимо перейти по\n'
-                f'ссылке: {settings.THIS_HOST}/verify-user/?token={token}'
+                f'Для активации вашей учетной записи необходимо перейти по'
+                f'ссылке:\n{settings.THIS_HOST}/verify-user/?token={token}'
             ),
             from_email=settings.FROM_EMAIL,
             recipient_list=[email]
