@@ -32,7 +32,7 @@ async function submitLogin() {
         window.localStorage.setItem('role', responseJSON['role'])
         emits('login', true)
         emits('roleAssigned', responseJSON['role'])
-        router.push('/')
+        router.push('/ask-quotes')
     }
 
     const responseContent = Object.keys(responseJSON)
@@ -48,20 +48,25 @@ async function submitLogin() {
 </script>
 
 <template>
-<h2>Вход</h2>
-<form @submit.prevent="submitLogin" class="col-md-6">
-    <FiedErrors :has_errors="has_errors" :errors="errors.non_field_errors" />
-    <p v-if="errors.detail">{{ errors.detail }}</p>
+    <div class="col-lg-6">
+        <form @submit.prevent="submitLogin">
+            <FiedErrors :has_errors="has_errors" :errors="errors.non_field_errors" />
+            <p v-if="errors.detail">{{ errors.detail }}</p>
 
-    <label for="email-field" class="form-label mb-2">Почта</label>
-    <input type="email" v-model="email" required id="email-field" class="form-control mb-2">
-    <FiedErrors :has_errors="has_errors" :errors="errors.email" />
-    
-    <label for="password-field" class="form-label mb-2">Пароль</label>
-    <input type="password" v-model="password" required id="password-field" class="form-control mb-2">
-    <FiedErrors :has_errors="has_errors" :errors="errors.password" />
-
-    <input type="submit" value="Войти" class="btn btn-info form-control mt-4">
-
-</form>
+            <input type="email" v-model="email" required id="email-field" class="form-control mb-2">
+            <FiedErrors :has_errors="has_errors" :errors="errors.email" />
+            <label for="email-field" class="form-label mb-3">Почта</label>
+            
+            <input type="password" v-model="password" required id="password-field" class="form-control mb-2">
+            <FiedErrors :has_errors="has_errors" :errors="errors.password" />
+            <label for="password-field" class="form-label mb-3">Пароль</label>
+            
+            <input type="submit" value="Войти" class="btn btn-info form-control">
+        </form>
+        <h2>Вход</h2>
+        <p class="display-6">Введите свою электронную почту и пароль. Следом вы сможете запросить расценки на запчасти.</p>
+    </div>
+    <div class="col-lg-6">
+        <img class="img-fluid" src="../assets/root_machine.jpg">
+    </div>
 </template>

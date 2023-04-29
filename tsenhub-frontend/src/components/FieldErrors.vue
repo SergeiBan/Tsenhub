@@ -7,6 +7,6 @@ const props = defineProps({
 
 <template>
 <template v-if="has_errors">
-    <p class="text-danger" v-for="e in errors" :key="e.id">{{ e }}</p>
+    <p class="text-info" v-for="e in errors" :key="e.id">{{ e }}</p>
 </template>
 </template>

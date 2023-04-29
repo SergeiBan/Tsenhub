@@ -46,27 +46,31 @@ async function submitRegistraion() {
 </script>
 
 <template>
-<h2 class="col-12">Регистрация</h2>
-<form @submit.prevent="submitRegistraion" class="col-md-6">
-    <FiedErrors :has_errors="has_errors" :errors="errors.non_field_errors" />
+    <div class="col-lg-6">
+        <form @submit.prevent="submitRegistraion">
+            <FiedErrors :has_errors="has_errors" :errors="errors.non_field_errors" />
 
-    <label for="email-field" class="form-label mb-2">Почта</label>
-    <input type="email" v-model="email" required id="email-field" class="form-control mb-2">
-    <FiedErrors :has_errors="has_errors" :errors="errors.email" />
+            <input type="email" v-model="email" required id="email-field" class="form-control mb-1">
+            <FiedErrors :has_errors="has_errors" :errors="errors.email" />
+            <label for="email-field" class="form-label mb-2">Почта</label>
 
-    <label for="entity-field" class="form-label mb-2">Название организации</label>
-    <input type="text" v-model="entity" required id="entity-field" class="form-control mb-2">
-    <FiedErrors :has_errors="has_errors" :errors="errors.entity" />
-    
-    <label for="password-field" class="form-label mb-2">Пароль</label>
-    <input type="password" v-model="password" required id="password-field" class="form-control mb-2">
-    <FiedErrors :has_errors="has_errors" :errors="errors.password" />
+            <input type="text" v-model="entity" required id="entity-field" class="form-control mb-1">
+            <FiedErrors :has_errors="has_errors" :errors="errors.entity" />
+            <label for="entity-field" class="form-label mb-2">Название организации</label>
 
-    <label for="password_confirm-field" class="form-label mb-2">Пароль повторно</label>
-    <input type="password" v-model="password_confirm" required id="password_confirm-field" class="form-control mb-2">
-    <FiedErrors :has_errors="has_errors" :errors="errors.password_confirm" />
+            <input type="password" v-model="password" required id="password-field" class="form-control mb-1">            
+            <FiedErrors :has_errors="has_errors" :errors="errors.password" />
+            <label for="password-field" class="form-label mb-2">Пароль</label>
 
-    <input type="submit" value="Зарегистрироваться" class="btn btn-info form-control mt-4">
+            <input type="password" v-model="password_confirm" required id="password_confirm-field" class="form-control mb-1">
+            <FiedErrors :has_errors="has_errors" :errors="errors.password_confirm" />
+            <label for="password_confirm-field" class="form-label mb-2">Пароль повторно</label>
 
-</form>
+            <input type="submit" value="Зарегистрироваться" class="btn btn-info form-control mt-2">
+            <h1>Регистрация</h1>
+        </form>
+    </div>
+    <div class="col-lg-6">
+        <img src="../assets/register.jpg" class="img-fluid">
+    </div>
 </template>
