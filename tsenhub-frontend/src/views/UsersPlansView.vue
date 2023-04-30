@@ -94,10 +94,10 @@ async function get_next() {
 </script>
 
 <template>
-<div class="col-12">
-    <p>Отметьте заказчиков, затем выберите для них тариф из выпадающего списка</p>
-</div>
-<div class="col-12 mb-4">
+<div class="col-lg-6">
+<p>Отметьте заказчиков, затем выберите для них тариф из выпадающего списка</p>
+
+<div class="mb-4">
     <select name="plans" id="" class="form-select" v-model="selectedPlan" @change="planChange">
         <option v-for="plan in plans" :key="plan.id" :value="plan.pk">{{ plan.discount }}%: {{ plan.name }}</option>
     </select>    
@@ -115,7 +115,7 @@ async function get_next() {
     </div>
 </div>
 
-<div class="col-md-8 offset-md-2">
+<div class="">
     <label class="list-group-item" v-for="user in users" :key="user.id">
         <input type="checkbox" class="form-check-input me-1" :name="user.email"
         v-model="selectedUsers" :id="user.email" :value="user.pk">
@@ -125,4 +125,5 @@ async function get_next() {
     </label>
 </div>
 
+</div>
 </template>

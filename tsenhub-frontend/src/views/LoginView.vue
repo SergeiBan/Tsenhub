@@ -27,12 +27,14 @@ async function submitLogin() {
     const responseJSON = await response.json()
 
     if (response['status'] == 200) {
+        const role = responseJSON['role']
         window.localStorage.setItem('access', responseJSON['access'])
         window.localStorage.setItem('refresh', responseJSON['refresh'])
-        window.localStorage.setItem('role', responseJSON['role'])
+        window.localStorage.setItem('role', role)
         emits('login', true)
-        emits('roleAssigned', responseJSON['role'])
-        router.push('/ask-quotes')
+        emits('roleAssigned', role)
+        if (role == 'seeker') { router.push('/ask-quotes') }
+        if (role == 'supplier') { router.push('/users-plans') }
     }
 
     const responseContent = Object.keys(responseJSON)
@@ -63,7 +65,6 @@ async function submitLogin() {
             
             <input type="submit" value="Войти" class="btn btn-info form-control">
         </form>
-        <h2>Вход</h2>
         <p class="display-6">Введите свою электронную почту и пароль. Следом вы сможете запросить расценки на запчасти.</p>
     </div>
     <div class="col-lg-6">

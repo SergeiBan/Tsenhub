@@ -9,7 +9,7 @@ const confirmURL = ref('/api/v1/users/verify-user/')
 const emit = defineEmits(['login', 'roleAssigned'])
 
 onMounted(async () => {
-    if (!route.query) { router.push('/') }
+    if (!route.query) { router.push('/register') }
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -27,7 +27,7 @@ onMounted(async () => {
         emit('login', true)
         emit('roleAssigned', responseJSON['role'])
         router.push('/register-final')
-    } else { router.push('/') }
+    } else { router.push('/register') }
 
 })
 </script>

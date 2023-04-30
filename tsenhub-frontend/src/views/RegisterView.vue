@@ -52,22 +52,22 @@ async function submitRegistraion() {
 
             <input type="email" v-model="email" required id="email-field" class="form-control mb-1">
             <FiedErrors :has_errors="has_errors" :errors="errors.email" />
-            <label for="email-field" class="form-label mb-2">Почта</label>
+            <label for="email-field" class="form-label mb-3">Почта</label>
 
             <input type="text" v-model="entity" required id="entity-field" class="form-control mb-1">
             <FiedErrors :has_errors="has_errors" :errors="errors.entity" />
-            <label for="entity-field" class="form-label mb-2">Название организации</label>
+            <label for="entity-field" class="form-label mb-3">Название организации</label>
 
             <input type="password" v-model="password" required id="password-field" class="form-control mb-1">            
             <FiedErrors :has_errors="has_errors" :errors="errors.password" />
-            <label for="password-field" class="form-label mb-2">Пароль</label>
+            <label for="password-field" class="form-label mb-3">Пароль</label>
 
             <input type="password" v-model="password_confirm" required id="password_confirm-field" class="form-control mb-1">
             <FiedErrors :has_errors="has_errors" :errors="errors.password_confirm" />
-            <label for="password_confirm-field" class="form-label mb-2">Пароль повторно</label>
+            <label for="password_confirm-field" class="form-label mb-3">Пароль повторно</label>
 
             <input type="submit" value="Зарегистрироваться" class="btn btn-info form-control mt-2">
-            <h1>Регистрация</h1>
+            <div class="display-6">Зарегистрируйся в Запчастице</div>
         </form>
     </div>
     <div class="col-lg-6">

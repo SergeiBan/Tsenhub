@@ -1,16 +1,22 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { onMounted, ref } from 'vue'
+import router from './router';
 
 let is_logged = ref(false)
 let role = ref(null)
 
 onMounted(async () => {
+  role.value = window.localStorage.getItem('role')
   const access = window.localStorage.getItem('access')
   if (access) { 
     is_logged.value = true
+    if (role.value == 'seeker') { router.push('/ask-quotes') }
+    if (role.value == 'supplier') { router.push('/users-plans') }
+  } else {
+    router.push('/login')
   }
-  role.value = window.localStorage.getItem('role')
+  
 })
 
 

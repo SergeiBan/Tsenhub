@@ -24,7 +24,8 @@ def parse_quotes_request(quotes_request_file):
     """
     Из поступившего файла делает список словарей с артикулами и количеством.
     """
-    df = pd.read_excel(io.BytesIO(quotes_request_file), header=None)
+    df = pd.read_excel(
+        io.BytesIO(quotes_request_file), header=None, dtype={1: int})
     return df.to_dict('records')
 
 

@@ -39,9 +39,13 @@ async function sendQuotesRequest() {
   if (response['status'] == 401) {
     response = await tokenUpdatedRequest(generateURL, requestOptions)
   }
-  if (response['status'] != 200) {
-    status.value = 'Извините, но при загрузке произошла ошибка'
+
+  if (response['status'] == 403) {
+    status.value = 'Извините, Запчастица еще не готова вас обслуживать'
     return
+  } else if (response['status'] != 200) {
+      status.value = 'Извините, но при загрузке произошла ошибка'
+      return
   }
 
   const responseBlob = await response.blob()
@@ -52,21 +56,21 @@ async function sendQuotesRequest() {
 </script>
 
 <template>
-  <div class="col-12">
-    <p>Для получения цен необходимо загрузить файл xlsx.</p>
-  </div>
-  <div class="col-12 mb-5">
-    <p>Файл должен содержать две колонки. В первой - артикулы, во второй - количество запчастей.</p>
-  </div>
-  <div class="col-md-10 offset-md-1">  
+  <div class="col-lg-6">
+
     <form @submit.prevent="sendQuotesRequest" class="mb-4">
       <input type="file" @change="addQuoteRequests" class="form-control mb-2">
       <input type="submit" class="form-control btn btn-info">
     </form>
+    <p class="display-6">Для получения цен загрузите файл .xlsx</p>
+    <p class="display-6">В первой колонке должны быть артикулы, а во второй - количество запчастей</p>
+    <p v-if="status">{{ status }}</p>
+    <div class="col-12">
+      <a v-if="downloadLink" :href="downloadLink" download="Стоимость.xlsx" class="btn btn-primary w-100">
+    Скачать таблицу цен</a>
+    </div>
   </div>
-  <div class="col-12" v-if="status"><p>{{ status }}</p></div>
-  <div class="col-12">
-    <a v-if="downloadLink" :href="downloadLink" download="Стоимость.xlsx" class="btn btn-primary w-100">
-  Скачать таблицу цен</a>
+  <div class="col-lg-6">
+    <img src="../assets/quotes_request.jpg" class="img-fluid">
   </div>
 </template>

@@ -2,7 +2,7 @@
 import router from '../router'
 
 function goHome() {
-    router.push('/')
+    router.push('/ask-quotes')
 }
 </script>
 

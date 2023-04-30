@@ -41,16 +41,19 @@ async function sendPricelist() {
 </script>
 
 <template>
-  <div class="col-md-6">
-    <p>Загрузите прайслист в формате .csv</p>
-    <p>В таблице должны быть колонки article_ и netprice_dso.
-      В article_ - артикулы, в netprice_dso - базовые цены.
-    </p>
+  <div class="col-lg-6">
     
     <form @submit.prevent="sendPricelist">
       <input type="file" @change="addPricelist" class="form-control mb-2">
       <input type="submit" class="form-control btn btn-info mb-4">
     </form>
+    <p class="display-6">Загрузите прайслист в формате .csv</p>
+    <p class="display-6">В таблице должны быть колонки article_ и netprice_dso.
+      В article_ - артикулы, в netprice_dso - базовые цены.
+    </p>
     <p>{{ loadStatus }}</p>
+</div>
+<div class="col-lg-6">
+  <img src="../assets/add_pricelist.jpg" class="img-fluid">
 </div>
 </template>

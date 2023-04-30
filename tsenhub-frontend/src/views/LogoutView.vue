@@ -11,6 +11,6 @@ onMounted(() => {
 
     emit('login', false)
     emit('role', null)
-    router.push('/')
+    router.push('/login')
 })
 </script>
