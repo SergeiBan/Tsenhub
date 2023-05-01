@@ -9,14 +9,7 @@ let role = ref(null)
 onMounted(async () => {
   role.value = window.localStorage.getItem('role')
   const access = window.localStorage.getItem('access')
-  if (access) { 
-    is_logged.value = true
-    if (role.value == 'seeker') { router.push('/ask-quotes') }
-    if (role.value == 'supplier') { router.push('/users-plans') }
-  } else {
-    router.push('/login')
-  }
-  
+  if (access) { is_logged.value = true }
 })
 
 
@@ -26,15 +19,15 @@ onMounted(async () => {
 
   <header class="row mb-5">
     <div class="col">
-      <nav class="nav nav-pills navbar-light navbar-expand-lg bg-light justify-content-between">
+      <nav class="nav navbar-light navbar-expand-lg bg-light justify-content-between">
         <RouterLink v-if="is_logged == true && role == 'supplier'" to="/users-plans" class="nav-item nav-link">Назначить тариф</RouterLink>
         <RouterLink v-if="is_logged == true && role == 'supplier'" to="/add-pricelist" class="nav-item nav-link">Добавить прайслист</RouterLink>
         <RouterLink v-if="is_logged == true && role == 'supplier'" to="/edit-plans" class="nav-item nav-link">Тарифы</RouterLink>
         <RouterLink v-if="is_logged == true" to="/ask-quotes" class="nav-item nav-link">Получить цены</RouterLink>
         
         <RouterLink v-if="is_logged == true" to="/logout" class="nav-item nav-link">Выйти</RouterLink>
-        <RouterLink v-if="is_logged == false" to="/register" class="nav-item nav-link">Регистрация</RouterLink>
-        <RouterLink v-if="is_logged == false" to="/login" class="nav-item nav-link align-self-end">Вход</RouterLink>
+        <RouterLink v-if="is_logged == false" to="/register" class="nav-item nav-link">Впервые? Зарегистрируйся!</RouterLink>
+        <RouterLink v-if="is_logged == false" to="/login" class="nav-item nav-link">Вход</RouterLink>
       </nav>
     </div>
   </header>

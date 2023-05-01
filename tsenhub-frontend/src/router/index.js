@@ -9,11 +9,17 @@ import LogoutView from '../views/LogoutView.vue'
 import LoginView from '../views/LoginView.vue'
 import UsersPlansView from '../views/UsersPlansView.vue'
 import EditPlansView from '../views/EditPlansView.vue'
+import HomeView from '../views/HomeView.vue'
 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
     {
       path: '/add-pricelist',
       name: 'add-pricelist',

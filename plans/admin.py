@@ -4,8 +4,8 @@ from plans.models import Plan
 
 
 class PlanAdmin(admin.ModelAdmin):
-    list_display = ('discount', 'name')
-    list_filter = ('discount',)
+    list_display = ('markup', 'name')
+    list_filter = ('markup',)
 
 
 admin.site.register(Plan, PlanAdmin)

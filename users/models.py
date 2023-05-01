@@ -42,7 +42,7 @@ class CustomUser(AbstractUser):
             subject=h,
             message=(
                 f'Для активации вашей учетной записи необходимо перейти по'
-                f'ссылке:\n{settings.THIS_HOST}/verify-user/?token={token}'
+                f'ссылке:\nhttps://запчастица.рф/verify-user/?token={token}'
             ),
             from_email=settings.FROM_EMAIL,
             recipient_list=[email]

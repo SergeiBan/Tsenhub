@@ -3,8 +3,8 @@ from django.db import models
 
 
 class Plan(models.Model):
-    discount = models.FloatField(
-        'Размер скидки в процентах',
+    markup = models.FloatField(
+        'Размер наценки в процентах',
         validators=[MinValueValidator(0.0), MaxValueValidator(100.0)],
         unique=True
     )
@@ -15,4 +15,4 @@ class Plan(models.Model):
         verbose_name_plural = 'Тарифы'
 
     def __str__(self) -> str:
-        return f'{self.discount} {self.name}'
+        return f'{self.markup} {self.name}'

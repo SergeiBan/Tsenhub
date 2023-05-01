@@ -51,7 +51,7 @@ onMounted(async () => {
 
 <div class="col-md-6 mb-4">
     <select name="plans" id="" class="form-select" v-model="selectedPlan" @change="planChange">
-        <option v-for="plan in plans" :key="plan.id" :value="plan.pk">{{ plan.discount }}%: {{ plan.name }}</option>
+        <option v-for="plan in plans" :key="plan.id" :value="plan.pk">{{ plan.markup }}%: {{ plan.name }}</option>
     </select>    
 </div>
 </template>

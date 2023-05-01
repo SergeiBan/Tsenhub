@@ -31,7 +31,7 @@ def parse_quotes_request(quotes_request_file):
 
 def prepare_quotes(quote_objs, customer):
     print(quote_objs)
-    discount = customer.plan.discount
+    markup = customer.plan.markup
     Part = apps.get_model('parts.Part')
     parts = Part.objects.filter(uid__in=[obj[0] for obj in quote_objs])
     parts = parts.values_list('uid', 'initial_price')
@@ -39,10 +39,11 @@ def prepare_quotes(quote_objs, customer):
     for part in parts:
         new_part = {}
         new_part['Артикул'] = part[0]
-        piece_price = part[1] * (100 - discount)
+        piece_price = part[1] + ((part[1] / 100) * markup)
         new_part['Цена за единицу'] = piece_price
         amount = [obj[1] for obj in quote_objs if obj[0] == part[0]][0]
         new_part['Итого'] = piece_price * amount
+        print(piece_price, part[1])
         result_parts.append(new_part)
 
     df = pd.DataFrame.from_dict(result_parts)

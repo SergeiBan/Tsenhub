@@ -7,7 +7,7 @@ const emits = defineEmits(['logout'])
 const plansURL = '/api/v1/plans/'
 const removePlansURL = '/api/v1/plans/remove_plans/'
 
-const discount = ref(null)
+const markup = ref(null)
 const description = ref(null)
 
 const plans = ref(null)
@@ -32,7 +32,7 @@ async function addPlan() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${access}` },
         body: JSON.stringify({
-            discount: discount.value,
+            markup: markup.value,
             name: description.value
         })
     }
@@ -76,8 +76,8 @@ onMounted(async () => {
     <div class="col-lg-6">
         <p>Заполните поля, чтобы добавить новый тариф. Ненужные тарифы можно удалять в списке ниже.</p>
         <form @submit.prevent="addPlan">
-            <label for="discount-field" class="form-label">Размер скидки в %</label>
-            <input type="number" step="0.01" min=0 class="form-control mb-2" id="discount-field" v-model="discount">
+            <label for="markup-field" class="form-label">Размер наценки в %</label>
+            <input type="number" step="0.01" min=0 class="form-control mb-2" id="markup-field" v-model="markup">
 
             <label for="description-field" class="form-label">Название тарифа</label>
             <input type="text" class="form-control mb-4" id="description-field" v-model="description">
@@ -91,7 +91,7 @@ onMounted(async () => {
             </p>
             <label class="list-group-item mb-1" v-for="plan in plans" :id="plan.id">
                 <input type="checkbox" class="form-check-input me-1" :value="plan.pk" :name="all-plans" v-model="selectedPlans">
-                {{ plan.discount }}% {{ plan.name }}
+                {{ plan.markup }}% {{ plan.name }}
             </label>
         </div>
         <button class="btn btn-danger w-100" @click="removePlans">Удалить выбранные тарифы</button>
