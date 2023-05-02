@@ -2,6 +2,12 @@ import io
 
 import pandas as pd
 from django.apps import apps
+import requests
+from django.utils import timezone
+from rates.models import Rate
+import math
+from rest_framework import exceptions, status
+import decimal
 
 
 def parse_pricelist(pricelist):
@@ -29,21 +35,56 @@ def parse_quotes_request(quotes_request_file):
     return df.to_dict('records')
 
 
+def get_rate():
+    cb_url = 'https://www.cbr-xml-daily.ru/daily_json.js'
+    try:
+        response = requests.get(cb_url).json()
+    except Exception:
+        raise exceptions.NotFound(
+            detail='Курсы валют недоступны',
+            code=status.HTTP_417_EXPECTATION_FAILED)
+    try:
+        rate = response['Valute']['EUR']['Value']
+        rate_accurate = decimal.Decimal(str(rate))
+        print(type(rate_accurate))
+        return rate_accurate
+    except Exception:
+        raise exceptions.NotAcceptable(
+            detail='Курс в ответе не обнаружен',
+            code=status.HTTP_417_EXPECTATION_FAILED)
+
+
 def prepare_quotes(quote_objs, customer):
-    print(quote_objs)
     markup = customer.plan.markup
     Part = apps.get_model('parts.Part')
     parts = Part.objects.filter(uid__in=[obj[0] for obj in quote_objs])
     parts = parts.values_list('uid', 'initial_price')
     result_parts = []
+    last_rate_db = Rate.objects.filter(date__gte=timezone.now().date())
+
+    if (
+        last_rate_db and
+        last_rate_db[0].date < timezone.now().date()
+        and timezone.now().hour > 12
+    ):
+        fresh_rate = get_rate()
+        Rate.objects.create(currency='EUR', rate=fresh_rate)
+    elif last_rate_db:
+        fresh_rate = last_rate_db[0].rate
+    else:
+        fresh_rate = get_rate()
+        Rate.objects.create(currency='EUR', rate=fresh_rate)
+
     for part in parts:
         new_part = {}
         new_part['Артикул'] = part[0]
-        piece_price = part[1] + ((part[1] / 100) * markup)
-        new_part['Цена за единицу'] = piece_price
+        pc_price = decimal.Decimal(str(part[1]))
+        piece_price = pc_price + ((pc_price / 100) * markup)
+        piece_price_rub = math.ceil(piece_price * (fresh_rate + 3))
+
+        new_part['Цена за единицу'] = piece_price_rub
         amount = [obj[1] for obj in quote_objs if obj[0] == part[0]][0]
-        new_part['Итого'] = piece_price * amount
-        print(piece_price, part[1])
+        new_part['Итого'] = piece_price_rub * amount
         result_parts.append(new_part)
 
     df = pd.DataFrame.from_dict(result_parts)

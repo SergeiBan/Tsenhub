@@ -3,9 +3,9 @@ from django.db import models
 
 
 class Plan(models.Model):
-    markup = models.FloatField(
+    markup = models.SmallIntegerField(
         'Размер наценки в процентах',
-        validators=[MinValueValidator(0.0), MaxValueValidator(100.0)],
+        validators=[MinValueValidator(0), MaxValueValidator(100)],
         unique=True
     )
     name = models.CharField('Название тарифа', max_length=32)
