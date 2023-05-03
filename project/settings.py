@@ -154,3 +154,7 @@ SIMPLE_JWT = {
     'TOKEN_REFRESH_SERIALIZER':
         'users.serializers.CustomTokenRefreshSerializer'
 }
+
+
+CELERY_BROKER = 'redis://localhost'
+CELERY_BACKEND = 'redis://localhost'

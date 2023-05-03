@@ -11,6 +11,7 @@ from parts.serializers import PartSerializer, PriceListSerializer
 from plans.permissions import IsSupplier
 
 from .permissions import IsOnPlanPermission
+from parts.tasks import add
 
 
 class ListRetrieveModelMixin(
@@ -66,6 +67,7 @@ class PartViewSet(ListRetrieveModelMixin):
         permission_classes=[IsOnPlanPermission]
     )
     def generate_quotes(self, request):
+        """Наполняет файл с ценами и возвращает его."""
         quotes_request_file = request.FILES['quotes_request'].read()
         try:
             quote_requests = parse_quotes_request(quotes_request_file)
@@ -76,4 +78,6 @@ class PartViewSet(ListRetrieveModelMixin):
         quotes = prepare_quotes(quote_requests, request.user)
 
         quotes.seek(0)
+        r = add.delay(1,110)
+        print(r.get())
         return FileResponse(quotes, as_attachment=True, filename='Quotes.xlsx')
