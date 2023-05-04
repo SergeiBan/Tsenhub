@@ -78,6 +78,6 @@ class PartViewSet(ListRetrieveModelMixin):
         quotes = prepare_quotes(quote_requests, request.user)
 
         quotes.seek(0)
-        r = add.delay(1,110)
+        r = add.delay(1, 110)
         print(r.get())
         return FileResponse(quotes, as_attachment=True, filename='Quotes.xlsx')

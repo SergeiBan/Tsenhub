@@ -4,7 +4,7 @@ from celery import Celery
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project.settings')
 
-app = Celery('project', broker='redis://localhost', backend='redis://localhost')
+app = Celery('project', broker='redis://redis', backend='redis://redis')
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 
