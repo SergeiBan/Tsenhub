@@ -8,7 +8,7 @@ services:
     container_name: db
     restart: always
     volumes:
-      - db_volume:/var/lib/postgresql/data/
+      - ./db_storage:/var/lib/postgresql/data/
     env_file:
       - ./.env-dev
     ports:

@@ -1,8 +1,8 @@
 #!/bin/bash
-echo "Flushing the manage.py command"
-while ! python manage.py flush --no-input 2>&1; do
-    sleep 3
-done
+# echo "Flushing the manage.py command"
+# while ! python manage.py flush --no-input 2>&1; do
+#     sleep 3
+# done
 
 echo "Migrating the DB"
 while ! python manage.py migrate 2>&1; do
