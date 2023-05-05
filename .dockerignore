@@ -1,11 +1,12 @@
 .vscode
-infra
+# infra
 static
 dist
 venv
 **.env
-.gitignore
-**Dockerfile
-setup.cfg
-**docker-compose-prod.yml
+# .gitignore
+# **Dockerfile
+# setup.cfg
+# **docker-compose-prod.yml
 **.env-prod
+**db_storage/
