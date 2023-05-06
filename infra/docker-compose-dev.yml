@@ -2,7 +2,6 @@ version: '3.9'
 
 services:
 
-
   db:
     image: postgres:15-alpine
     container_name: db
@@ -27,7 +26,7 @@ services:
     depends_on:
       - db
     env_file:
-      - ./.env
+      - ./.env-dev
 
 
   nginx:
@@ -57,7 +56,7 @@ services:
   celery:
     image: sergeiban/zapchastitsa-celery
     env_file:
-      - ../.env
+      - ./.env-dev
     command: ["celery", "-A", "project", "worker", "-l", "info"]
     depends_on:
       - redis

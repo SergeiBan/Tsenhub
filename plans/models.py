@@ -8,6 +8,8 @@ class Plan(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(100)],
         unique=True
     )
+    multiplier = models.DecimalField(
+        'Множитель тарифа', max_digits=8, decimal_places=4)
     name = models.CharField('Название тарифа', max_length=32)
 
     class Meta:
