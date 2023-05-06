@@ -22,8 +22,10 @@ class FloatMultiplier(serializers.Field):
     def to_internal_value(self, data):
         return super().to_internal_value(data)
 
+
 class PlanSerializer(serializers.ModelSerializer):
     pk = serializers.PrimaryKeyRelatedField(read_only=True)
+    multiplier = FloatMultiplier()
 
     class Meta:
         model = Plan
