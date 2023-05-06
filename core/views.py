@@ -8,6 +8,8 @@ from rates.models import Rate
 import math
 from rest_framework import exceptions, status
 import decimal
+from datetime import timedelta, time, datetime
+import pytz
 
 
 def parse_pricelist(pricelist):
@@ -36,9 +38,9 @@ def parse_quotes_request(quotes_request_file):
 
 
 def get_rate():
-    cb_url = 'https://www.cbr-xml-daily.ru/daily_json.js'
+    CB_URL = 'https://www.cbr-xml-daily.ru/daily_json.js'
     try:
-        response = requests.get(cb_url).json()
+        response = requests.get(CB_URL).json()
     except Exception:
         raise exceptions.NotFound(
             detail='Курсы валют недоступны',
@@ -54,6 +56,42 @@ def get_rate():
             code=status.HTTP_417_EXPECTATION_FAILED)
 
 
+def choose_rate(last_rate_db):
+    one_day = timedelta(days=1)
+    today = timezone.now().today()
+    yesterday = today - one_day
+    fresh_rate = None
+    print(today, yesterday, 'dates are here ------------------------')
+
+    if not last_rate_db:
+        fresh_rate = get_rate()
+        Rate.objects.create(currency='EUR', rate=fresh_rate)
+        return fresh_rate
+
+    if (
+        last_rate_db.date == today and
+        last_rate_db.date.hour < 12
+        and timezone.now().hour >= 12
+    ):
+        fresh_rate = get_rate()
+        Rate.objects.create(currency='EUR', rate=fresh_rate)
+    
+    elif last_rate_db.date == today:
+        fresh_rate = last_rate_db.rate
+    
+    elif (
+        last_rate_db.date == yesterday and
+        last_rate_db.date.hour > 12 and
+        timezone.now().hour < 12
+    ):
+        fresh_rate = last_rate_db.rate        
+
+    else:
+        fresh_rate = get_rate()
+        Rate.objects.create(currency='EUR', rate=fresh_rate)
+
+    return fresh_rate
+
 def prepare_quotes(quote_objs, customer):
     markup = customer.plan.markup
     multiplier = customer.plan.multiplier
@@ -61,22 +99,9 @@ def prepare_quotes(quote_objs, customer):
     parts = Part.objects.filter(uid__in=[obj[0] for obj in quote_objs])
     parts = parts.values_list('uid', 'initial_price')
     result_parts = []
-    last_rate_db = Rate.objects.filter(date__gte=timezone.now().date())
-    print(last_rate_db, flush=True)
-
-    if (
-        last_rate_db and
-        last_rate_db[0].date < timezone.now().date()
-        and timezone.now().hour > 12
-    ):
-        fresh_rate = get_rate()
-        Rate.objects.create(currency='EUR', rate=fresh_rate)
-    elif last_rate_db:
-        fresh_rate = last_rate_db[0].rate
-    else:
-        fresh_rate = get_rate()
-        Rate.objects.create(currency='EUR', rate=fresh_rate)
-
+    last_rate_db = Rate.objects.first()
+    
+    fresh_rate = choose_rate(last_rate_db)
     for part in parts:
         new_part = {}
         new_part['Артикул'] = part[0]
