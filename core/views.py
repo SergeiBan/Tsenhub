@@ -56,11 +56,13 @@ def get_rate():
 
 def prepare_quotes(quote_objs, customer):
     markup = customer.plan.markup
+    multiplier = customer.plan.multiplier
     Part = apps.get_model('parts.Part')
     parts = Part.objects.filter(uid__in=[obj[0] for obj in quote_objs])
     parts = parts.values_list('uid', 'initial_price')
     result_parts = []
     last_rate_db = Rate.objects.filter(date__gte=timezone.now().date())
+    print(last_rate_db, flush=True)
 
     if (
         last_rate_db and

@@ -15,18 +15,23 @@ class UsersPlanSerializer(serializers.Serializer):
     )
 
 
+class FloatMultiplier(serializers.Field):
+    def to_representation(self, value):
+        return float(value)
+    
+    def to_internal_value(self, data):
+        return super().to_internal_value(data)
+
+
 class PlanSerializer(serializers.ModelSerializer):
     pk = serializers.PrimaryKeyRelatedField(read_only=True)
+    multiplier = FloatMultiplier()
 
     class Meta:
         model = Plan
-        fields = ('pk', 'markup', 'name')
+        fields = ('pk', 'markup', 'multiplier', 'name')
 
 
 class RemovePlansSerializer(serializers.Serializer):
-
-    # plans = serializers.PrimaryKeyRelatedField(
-    #     queryset=Plan.objects.all(), many=True
-    # )
 
     plans = serializers.ListField(child=serializers.IntegerField(min_value=0))
