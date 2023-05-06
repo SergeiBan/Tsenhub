@@ -29,7 +29,7 @@ class PlanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Plan
-        fields = ('pk', 'markup', 'multiplier', 'name')
+        fields = ('pk', 'multiplier', 'name')
 
 
 class RemovePlansSerializer(serializers.Serializer):

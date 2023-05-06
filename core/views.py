@@ -91,7 +91,6 @@ def choose_rate(last_rate_db):
     return fresh_rate
 
 def prepare_quotes(quote_objs, customer):
-    markup = customer.plan.markup
     multiplier = customer.plan.multiplier
     Part = apps.get_model('parts.Part')
     parts = Part.objects.filter(uid__in=[obj[0] for obj in quote_objs])
@@ -104,14 +103,9 @@ def prepare_quotes(quote_objs, customer):
         new_part = {}
         new_part['Артикул'] = part[0]
         pc_price = decimal.Decimal(str(part[1]))
-        print(pc_price, 'цена изначальная')
-        price_with_markup = pc_price + ((pc_price / 100) * markup)
-        print(price_with_markup, 'цена с наценкой')
-        piece_price_rub = math.ceil(price_with_markup * (fresh_rate + 3))
-        print(piece_price_rub, 'цена в рублях')
+        piece_price_rub = pc_price * (fresh_rate + 3)
 
-        price_multiplied = piece_price_rub * multiplier
-        print(price_multiplied, 'цена помноженная')
+        price_multiplied = math.ceil(piece_price_rub * multiplier)
 
         new_part['Цена за единицу'] = price_multiplied
         amount = [obj[1] for obj in quote_objs if obj[0] == part[0]][0]
