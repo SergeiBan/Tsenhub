@@ -48,7 +48,6 @@ def get_rate():
     try:
         rate = response['Valute']['EUR']['Value']
         rate_accurate = decimal.Decimal(str(rate))
-        print(type(rate_accurate))
         return rate_accurate
     except Exception:
         raise exceptions.NotAcceptable(
@@ -61,7 +60,6 @@ def choose_rate(last_rate_db):
     today = timezone.now().today()
     yesterday = today - one_day
     fresh_rate = None
-    print(today, yesterday, 'dates are here ------------------------')
 
     if not last_rate_db:
         fresh_rate = get_rate()
@@ -106,12 +104,18 @@ def prepare_quotes(quote_objs, customer):
         new_part = {}
         new_part['Артикул'] = part[0]
         pc_price = decimal.Decimal(str(part[1]))
-        piece_price = pc_price + ((pc_price / 100) * markup)
-        piece_price_rub = math.ceil(piece_price * (fresh_rate + 3))
+        print(pc_price, 'цена изначальная')
+        price_with_markup = pc_price + ((pc_price / 100) * markup)
+        print(price_with_markup, 'цена с наценкой')
+        piece_price_rub = math.ceil(price_with_markup * (fresh_rate + 3))
+        print(piece_price_rub, 'цена в рублях')
 
-        new_part['Цена за единицу'] = piece_price_rub
+        price_multiplied = piece_price_rub * multiplier
+        print(price_multiplied, 'цена помноженная')
+
+        new_part['Цена за единицу'] = price_multiplied
         amount = [obj[1] for obj in quote_objs if obj[0] == part[0]][0]
-        new_part['Итого'] = piece_price_rub * amount
+        new_part['Итого'] = price_multiplied * amount
         result_parts.append(new_part)
 
     df = pd.DataFrame.from_dict(result_parts)

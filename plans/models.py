@@ -3,13 +3,9 @@ from django.db import models
 
 
 class Plan(models.Model):
-    markup = models.SmallIntegerField(
-        'Размер наценки в процентах',
-        validators=[MinValueValidator(0), MaxValueValidator(100)],
-        unique=True
-    )
     multiplier = models.DecimalField(
-        'Множитель тарифа', max_digits=8, decimal_places=4)
+        'Наценка - множитель', max_digits=9, decimal_places=4,
+        validators=[MinValueValidator(0)], unique=True)
     name = models.CharField('Название тарифа', max_length=32)
 
     class Meta:
@@ -17,4 +13,4 @@ class Plan(models.Model):
         verbose_name_plural = 'Тарифы'
 
     def __str__(self) -> str:
-        return f'{self.markup} {self.name}'
+        return f'{self.multiplier} {self.name}'

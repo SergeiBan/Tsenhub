@@ -4,8 +4,8 @@ from plans.models import Plan
 
 
 class PlanAdmin(admin.ModelAdmin):
-    list_display = ('markup', 'name')
-    list_filter = ('markup',)
+    list_display = ('multiplier', 'name')
+    list_filter = ('multiplier',)
 
 
 admin.site.register(Plan, PlanAdmin)

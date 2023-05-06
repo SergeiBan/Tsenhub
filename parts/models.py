@@ -4,8 +4,8 @@ from core.views import parse_pricelist
 
 
 class Part(models.Model):
-    uid = models.CharField(max_length=64)
-    initial_price = models.PositiveIntegerField()
+    uid = models.CharField(max_length=32)
+    initial_price = models.DecimalField(max_digits=9, decimal_places=2)
 
     def get_parts(pricelist):
         pricelist = parse_pricelist(pricelist)
