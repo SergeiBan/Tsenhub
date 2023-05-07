@@ -20,7 +20,7 @@ class FloatMultiplier(serializers.Field):
         return float(value)
     
     def to_internal_value(self, data):
-        return super().to_internal_value(data)
+        return data
 
 
 class PlanSerializer(serializers.ModelSerializer):
