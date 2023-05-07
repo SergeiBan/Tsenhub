@@ -95,22 +95,30 @@ def prepare_quotes(quote_objs, customer):
     multiplier = customer.plan.multiplier
     Part = apps.get_model('parts.Part')
     parts = Part.objects.filter(uid__in=[obj[0] for obj in quote_objs])
-    parts = parts.values_list('uid', 'initial_price')
+    parts = dict(parts.values_list('uid', 'initial_price'))
     result_parts = []
+
     last_rate_db = Rate.objects.first()
+<<<<<<< HEAD
 
+=======
+>>>>>>> 08dba20d03433877c7f009aa2d0a5bb0e2f637bf
     fresh_rate = choose_rate(last_rate_db)
-    for part in parts:
-        new_part = {}
-        new_part['Артикул'] = part[0]
-        pc_price = decimal.Decimal(str(part[1]))
-        piece_price_rub = pc_price * (fresh_rate + 3)
 
-        price_multiplied = math.ceil(piece_price_rub * multiplier)
+    for obj in quote_objs:
+        current_price = parts.get(obj[0])
+        new_part = { 'Артикул': obj[0] }
+        if not current_price:
+            new_part['Цена за единицу'] = 'отсутствует'
+            new_part['Количество'] = 'отсутствует'
+            new_part['Итого'] = 'отсутствует'
+        else:
+            piece_price_rub = current_price * (fresh_rate + 3)
+            price_multiplied = math.ceil(piece_price_rub * multiplier)
+            new_part['Цена за единицу'] = price_multiplied
+            new_part['Количество'] = obj[1]
+            new_part['Итого'] = price_multiplied * obj[1]
 
-        new_part['Цена за единицу'] = price_multiplied
-        amount = [obj[1] for obj in quote_objs if obj[0] == part[0]][0]
-        new_part['Итого'] = price_multiplied * amount
         result_parts.append(new_part)
 
     df = pd.DataFrame.from_dict(result_parts)
