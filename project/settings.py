@@ -133,8 +133,8 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-# EMAIL_FILE_PATH = 'tmp_emails'
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp_emails'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -147,6 +147,7 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 FROM_EMAIL = 'zapchastitsa@internet.ru'
 
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
     'TOKEN_OBTAIN_SERIALIZER':
@@ -156,5 +157,8 @@ SIMPLE_JWT = {
 }
 
 
-CELERY_BROKER = 'redis://localhost'
-CELERY_BACKEND = 'redis://localhost'
+# CELERY_BROKER = 'redis://localhost'
+# CELERY_BACKEND = 'redis://localhost'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+# EMAIL_FILE_PATH = 'tmp_emails'
