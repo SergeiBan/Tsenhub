@@ -156,5 +156,5 @@ SIMPLE_JWT = {
 }
 
 
-CELERY_BROKER = 'redis://localhost'
-CELERY_BACKEND = 'redis://localhost'
+# CELERY_BROKER = 'redis://localhost'
+# CELERY_BACKEND = 'redis://localhost'

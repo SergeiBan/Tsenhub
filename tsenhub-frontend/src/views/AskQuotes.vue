@@ -63,7 +63,7 @@ async function sendQuotesRequest() {
       <input type="submit" class="form-control btn btn-info">
     </form>
     <p class="display-6">Для получения цен загрузите файл .xlsx</p>
-    <p class="display-6">В первой колонке должны быть артикулы, а во второй - количество запчастей</p>
+    <p class="display-6">Начиная с первой строки: в первой колонке должны стоять артикулы, а во второй - количество запчастей</p>
     <p v-if="status">{{ status }}</p>
     <div class="col-12">
       <a v-if="downloadLink" :href="downloadLink" download="Стоимость.xlsx" class="btn btn-primary w-100">

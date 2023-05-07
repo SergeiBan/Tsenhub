@@ -90,6 +90,7 @@ def choose_rate(last_rate_db):
 
     return fresh_rate
 
+
 def prepare_quotes(quote_objs, customer):
     multiplier = customer.plan.multiplier
     Part = apps.get_model('parts.Part')
@@ -97,7 +98,7 @@ def prepare_quotes(quote_objs, customer):
     parts = parts.values_list('uid', 'initial_price')
     result_parts = []
     last_rate_db = Rate.objects.first()
-    
+
     fresh_rate = choose_rate(last_rate_db)
     for part in parts:
         new_part = {}
