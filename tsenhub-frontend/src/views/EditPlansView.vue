@@ -7,8 +7,7 @@ const emits = defineEmits(['logout'])
 const plansURL = '/api/v1/plans/'
 const removePlansURL = '/api/v1/plans/remove_plans/'
 
-const markup = ref(null)
-const muliplier = ref(null)
+const multiplier = ref(null)
 const description = ref(null)
 
 const plans = ref(null)
@@ -33,8 +32,7 @@ async function addPlan() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${access}` },
         body: JSON.stringify({
-            markup: markup.value,
-            multiplier: muliplier.value,
+            multiplier: multiplier.value,
             name: description.value
         })
     }
@@ -78,16 +76,8 @@ onMounted(async () => {
     <div class="col-lg-6">
         <p>Заполните поля, чтобы добавить новый тариф. Ненужные тарифы можно удалять в списке ниже.</p>
         <form @submit.prevent="addPlan">
-            <div class="row g-3">
-                <div class="col-6">
-                    <label for="markup-field" class="form-label">Размер наценки в %</label>
-                    <input type="number" step="1" min=0 class="form-control mb-2" id="markup-field" v-model="markup" required>
-                </div>
-                <div class="col-6">
-                    <label for="multiplier-field" class="form-label">Множитель</label>
-                    <input type="number" step="0.01" min=0 class="form-control mb-2" id="multiplier-field" v-model="muliplier" required>
-                </div>
-            </div>
+            <label for="multiplier-field" class="form-label">Множитель тарифа</label>
+            <input type="number" step="0.01" min=0 class="form-control mb-2" id="multiplier-field" v-model="multiplier" required>
             <label for="description-field" class="form-label">Название тарифа</label>
             <input type="text" class="form-control mb-4" id="description-field" v-model="description" required>
 
@@ -100,7 +90,7 @@ onMounted(async () => {
             </p>
             <label class="list-group-item mb-1" v-for="plan in plans" :id="plan.id">
                 <input type="checkbox" class="form-check-input me-1" :value="plan.pk" :name="all-plans" v-model="selectedPlans">
-                {{ plan.markup }}% - {{ plan.multiplier }} - {{ plan.name }}
+                {{ plan.multiplier }}х {{ plan.name }}
             </label>
         </div>
         <button class="btn btn-danger w-100" @click="removePlans">Удалить выбранные тарифы</button>

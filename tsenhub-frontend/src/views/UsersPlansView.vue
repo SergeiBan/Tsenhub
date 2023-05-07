@@ -99,7 +99,7 @@ async function get_next() {
 
 <div class="mb-4">
     <select name="plans" id="" class="form-select" v-model="selectedPlan" @change="planChange">
-        <option v-for="plan in plans" :key="plan.id" :value="plan.pk">{{ plan.markup }}% {{ plan.multiplier }}: {{ plan.name }}</option>
+        <option v-for="plan in plans" :key="plan.id" :value="plan.pk">{{ plan.multiplier }}х {{ plan.name }}</option>
     </select>    
 </div>
 
@@ -120,7 +120,7 @@ async function get_next() {
         <input type="checkbox" class="form-check-input me-1" :name="user.email"
         v-model="selectedUsers" :id="user.email" :value="user.pk">
         {{ user.entity }}: {{ user.email }}
-        <span v-if="user.plan" class="text-success">{{ user.plan.markup }}% {{ user.plan.multiplier }}: {{ user.plan.name }}</span>
+        <span v-if="user.plan" class="text-success">{{ user.plan.multiplier }}х {{ user.plan.name }}</span>
         <span v-else class="text-danger">не назначено</span>
     </label>
 </div>
