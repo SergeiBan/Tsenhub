@@ -32,7 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('pk', 'email', 'entity', 'plan')
+        fields = ('pk', 'email', 'phone_number', 'entity', 'plan')
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
