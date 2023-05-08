@@ -8,8 +8,7 @@ from rates.models import Rate
 import math
 from rest_framework import exceptions, status
 import decimal
-from datetime import timedelta, time, datetime
-import pytz
+from datetime import timedelta
 
 
 def parse_pricelist(pricelist):
@@ -99,15 +98,11 @@ def prepare_quotes(quote_objs, customer):
     result_parts = []
 
     last_rate_db = Rate.objects.first()
-<<<<<<< HEAD
-
-=======
->>>>>>> 08dba20d03433877c7f009aa2d0a5bb0e2f637bf
     fresh_rate = choose_rate(last_rate_db)
 
     for obj in quote_objs:
         current_price = parts.get(obj[0])
-        new_part = { 'Артикул': obj[0] }
+        new_part = {'Артикул': obj[0]}
         if not current_price:
             new_part['Цена за единицу'] = 'отсутствует'
             new_part['Количество'] = 'отсутствует'

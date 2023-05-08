@@ -14,6 +14,6 @@ def notify_supplier(seeker_entity, seeker_email):
         subject=h,
         message=(f'Зарегистрировался пользователь {seeker_entity} с почтой {seeker_email}'),
         from_email=settings.FROM_EMAIL,
-        recipient_list=['s.o.banshchikov@yandex.ru']
+        recipient_list=['alex.kuzmenko84@mail.ru']
     )
 

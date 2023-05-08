@@ -159,9 +159,6 @@ SIMPLE_JWT = {
 
 # CELERY_BROKER = 'redis://localhost'
 # CELERY_BACKEND = 'redis://localhost'
-<<<<<<< HEAD
-=======
 
-# EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-# EMAIL_FILE_PATH = 'tmp_emails'
->>>>>>> 08dba20d03433877c7f009aa2d0a5bb0e2f637bf
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp_emails'

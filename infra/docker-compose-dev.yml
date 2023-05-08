@@ -14,9 +14,11 @@ services:
       - "5432:5432"
 
   web:
-    build: ../
+    image: sergeiban/zapchastitsa
+    build:
+      context: ../
+      dockerfile: Dockerfile
     container_name: web
-    # image: sergeiban/zapchastitsa
     restart: unless-stopped
     volumes:
        - static_volume:/app/static/
@@ -56,6 +58,7 @@ services:
   
   celery:
     image: sergeiban/zapchastitsa-celery
+    restart: unless-stopped
     env_file:
       - ./.env-dev
     command: ["celery", "-A", "project", "worker", "-l", "info"]
