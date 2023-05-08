@@ -2,9 +2,6 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
-from dotenv import load_dotenv
-
-load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 THIS_HOST = 'xn--80aaazh4bpi1bf.xn--p1ai'
@@ -12,7 +9,7 @@ THIS_HOST = 'xn--80aaazh4bpi1bf.xn--p1ai'
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'web', '172.17.0.1', THIS_HOST]
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', f'https://{THIS_HOST}']
@@ -155,10 +152,3 @@ SIMPLE_JWT = {
     'TOKEN_REFRESH_SERIALIZER':
         'users.serializers.CustomTokenRefreshSerializer'
 }
-
-
-# CELERY_BROKER = 'redis://localhost'
-# CELERY_BACKEND = 'redis://localhost'
-
-EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = 'tmp_emails'

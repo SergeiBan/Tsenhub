@@ -23,7 +23,7 @@ class CustomUserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'entity', 'password')
+        fields = ('email', 'phone_number', 'entity', 'password')
 
 
 class UserSerializer(serializers.ModelSerializer):
