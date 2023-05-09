@@ -4,14 +4,14 @@ import FiedErrors from '../components/FieldErrors.vue'
 import router from '../router'
 
 const email = ref(null)
-const tel = ref(null)
+const phone_number = ref(null)
 const entity = ref(null)
 const password = ref(null)
 const password_confirm = ref(null)
 const submitURL = '/api/v1/users/'
 
 const errors = {
-    email: null, tel: null, entity: null, password: null, password_confirm: null, non_field_errors: null
+    email: null, phone_number: null, entity: null, password: null, password_confirm: null, non_field_errors: null
 }
 const has_errors = ref(false)
 
@@ -27,7 +27,7 @@ async function submitRegistraion() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             email: email.value,
-            phone_number: tel.value,
+            phone_number: phone_number.value,
             entity: entity.value,
             password: password.value
         })
@@ -39,7 +39,7 @@ async function submitRegistraion() {
         router.push('/register-sent')
     }
     has_errors.value = false
-    const fields = ['email', 'tel', 'entity', 'password', 'non_field_errors']
+    const fields = ['email', 'phone_number', 'entity', 'password', 'non_field_errors']
     fields.forEach(element => {
         errors[`${element}`] = element in responseJSON ? responseJSON[element] : null
         has_errors.value = element in responseJSON ? true : has_errors.value
@@ -56,9 +56,9 @@ async function submitRegistraion() {
             <FiedErrors :has_errors="has_errors" :errors="errors.email" />
             <label for="email-field" class="form-label mb-3">Почта</label>
 
-            <input type="tel" v-model="tel" required id="tel-field" class="form-control mb-1">
-            <FiedErrors :has_errors="has_errors" :errors="errors.tel" />
-            <label for="tel-field" class="form-label mb-3">Телефон</label>
+            <input type="phone_number" v-model="phone_number" required id="phone_number-field" class="form-control mb-1">
+            <FiedErrors :has_errors="has_errors" :errors="errors.phone_number" />
+            <label for="phone_number-field" class="form-label mb-3">Телефон</label>
 
             <input type="text" v-model="entity" required id="entity-field" class="form-control mb-1">
             <FiedErrors :has_errors="has_errors" :errors="errors.entity" />
