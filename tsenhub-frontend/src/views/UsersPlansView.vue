@@ -119,7 +119,7 @@ async function get_next() {
     <label class="list-group-item" v-for="user in users" :key="user.id">
         <input type="checkbox" class="form-check-input me-1" :name="user.email"
         v-model="selectedUsers" :id="user.email" :value="user.pk">
-        {{ user.entity }}: {{ user.email }}
+        {{ user.entity }}: {{ user.email }} - {{ user.phone_number }}
         <span v-if="user.plan" class="text-success">{{ user.plan.multiplier }}х {{ user.plan.name }}</span>
         <span v-else class="text-danger">не назначено</span>
     </label>
