@@ -62,8 +62,17 @@ async function sendQuotesRequest() {
       <input type="file" @change="addQuoteRequests" class="form-control mb-2">
       <input type="submit" class="form-control btn btn-info">
     </form>
-    <p class="display-6">Для получения цен загрузите файл .xlsx</p>
-    <p class="display-6">Начиная с первой строки: в первой колонке должны стоять артикулы, а во второй - количество запчастей</p>
+
+    <div class="row mb-3">
+      <div class="col-lg-8 col-6">
+        <img src="../assets/upload_instruction.jpg" class="img-fluid">
+      </div>
+      <div class="col-lg-4 col-6"><p class="lead"><b>Образец заполнения</b></p>
+      </div>
+    </div>
+    <p class="display-6">Загрузите файл .xlsx</p>
+    <p class="lead">Не пропускайте пустых строк</p>
+    <p class="lead">В первой колонке должны стоять артикулы, а во второй - количество запчастей</p>
     <p v-if="status">{{ status }}</p>
     <div class="col-12">
       <a v-if="downloadLink" :href="downloadLink" download="Стоимость.xlsx" class="btn btn-primary w-100">
