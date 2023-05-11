@@ -33,6 +33,7 @@ def parse_quotes_request(quotes_request_file):
     """
     df = pd.read_excel(
         io.BytesIO(quotes_request_file), header=None, dtype={1: int})
+    df[0].str.replace(' ', '')
     return df.to_dict('records')
 
 
