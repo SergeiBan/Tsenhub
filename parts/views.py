@@ -11,6 +11,7 @@ from parts.serializers import PartSerializer, PriceListSerializer
 from plans.permissions import IsSupplier
 
 from .permissions import IsOnPlanPermission
+from rest_framework.exceptions import ValidationError
 
 
 class ListRetrieveModelMixin(
@@ -67,13 +68,18 @@ class PartViewSet(ListRetrieveModelMixin):
     )
     def generate_quotes(self, request):
         """Наполняет файл с ценами и возвращает его."""
-        quotes_request_file = request.FILES['quotes_request'].read()
+        try:
+            quotes_request_file = request.FILES['quotes_request'].read()
+        except Exception:
+            raise ValidationError(
+                detail={'file': 'Нужный файл не найден'}, code=HTTPStatus.BAD_REQUEST)
+
         try:
             quote_requests = parse_quotes_request(quotes_request_file)
         except Exception:
-            return response.Response(
-                {'detail': 'Ошибка обработки файла'},
-                status=HTTPStatus.UNPROCESSABLE_ENTITY)
+            raise ValidationError(
+                detail={'file': 'В файле содержатся ошибки'}, code=HTTPStatus.BAD_REQUEST)
+
         quotes = prepare_quotes(quote_requests, request.user)
 
         quotes.seek(0)
