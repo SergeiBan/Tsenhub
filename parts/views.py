@@ -72,13 +72,15 @@ class PartViewSet(ListRetrieveModelMixin):
             quotes_request_file = request.FILES['quotes_request'].read()
         except Exception:
             raise ValidationError(
-                detail={'file': 'Нужный файл не найден'}, code=HTTPStatus.BAD_REQUEST)
+                detail={'file': 'Нужный файл не найден'},
+                code=HTTPStatus.BAD_REQUEST)
 
         try:
             quote_requests = parse_quotes_request(quotes_request_file)
         except Exception:
             raise ValidationError(
-                detail={'file': 'В файле содержатся ошибки'}, code=HTTPStatus.BAD_REQUEST)
+                detail={'file': 'В файле содержатся ошибки'},
+                code=HTTPStatus.BAD_REQUEST)
 
         quotes = prepare_quotes(quote_requests, request.user)
 
