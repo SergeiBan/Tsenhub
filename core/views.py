@@ -33,7 +33,6 @@ def parse_quotes_request(quotes_request_file):
     """
     df = pd.read_excel(
         io.BytesIO(quotes_request_file), header=None, dtype={0: str, 1: int})
-    # df[0] = df[0].replace(' ', '', regex=True)
     df[0] = df[0].replace(
         {' ': '', 'А': 'A', 'Е': 'E', 'С': 'C', 'О': 'O', 'К': 'K', 'М': 'M',
          'Н': 'H', 'Т': 'T', 'В': 'B', 'Х': 'X', 'Р': 'P'},

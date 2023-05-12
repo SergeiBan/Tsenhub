@@ -24,7 +24,7 @@ class CustomUserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'phone_number', 'entity', 'password')
-    
+
     def validate_phone_number(self, value):
         ALLOWED_CHARS = {
             '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '_',
@@ -35,6 +35,7 @@ class CustomUserRegisterSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     detail='В номере телефоне есть недопустимые символы')
 
+        return value
 
 
 class UserSerializer(serializers.ModelSerializer):
