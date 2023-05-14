@@ -73,9 +73,10 @@ async function sendQuotesRequest() {
     <p class="display-6">Загрузите файл .xlsx</p>
     <p class="lead">Не пропускайте пустых строк</p>
     <p class="lead">В первой колонке должны стоять артикулы, а во второй - количество запчастей</p>
+    <p class="fw-bold">Цены даны по сегодняшнему курсу евро ЦБ</p>
     <p v-if="status">{{ status }}</p>
     <div class="col-12">
-      <a v-if="downloadLink" :href="downloadLink" download="Стоимость.xlsx" class="btn btn-primary w-100">
+      <a v-if="downloadLink" :href="downloadLink" download="Запчастица_Расценки.xlsx" class="btn btn-primary w-100">
     Скачать таблицу цен</a>
     </div>
   </div>
