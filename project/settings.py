@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'plans.apps.PlansConfig',
     'rates.apps.RatesConfig',
+    'inquiries.apps.InquiriesConfig',
 ]
 
 

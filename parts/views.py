@@ -12,6 +12,7 @@ from plans.permissions import IsSupplier
 
 from .permissions import IsOnPlanPermission
 from rest_framework.exceptions import ValidationError
+from inquiries.tasks import save_inquiry
 
 
 class ListRetrieveModelMixin(
@@ -81,6 +82,8 @@ class PartViewSet(ListRetrieveModelMixin):
             raise ValidationError(
                 detail={'file': 'В файле содержатся ошибки'},
                 code=HTTPStatus.BAD_REQUEST)
+        
+        save_inquiry.delay(quote_requests, request.user.pk)
 
         quotes = prepare_quotes(quote_requests, request.user)
 
