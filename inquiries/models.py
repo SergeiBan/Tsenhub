@@ -10,7 +10,6 @@ class Inquiry(models.Model):
     seeker = models.ForeignKey(
         User, on_delete=models.SET_NULL, null=True, blank=True,
         related_name='inquiries')
-    part = models.ForeignKey(
-        Part, on_delete=models.SET_NULL, null=True, blank=True,
-        related_name='parts')
+    part = models.CharField(max_length=32)
+    amount = models.IntegerField()
     inquiry_date = models.DateTimeField()
