@@ -6,6 +6,7 @@ import router from '../router';
 const emits = defineEmits(['login'])
 let quote_request_list = ref(null)
 let downloadLink = ref(null)
+let orderLink = '/api/v1/parts/place_order/'
 const generateURL = '/api/v1/parts/generate_quotes/'
 let access = window.localStorage.getItem('access')
 
@@ -75,9 +76,12 @@ async function sendQuotesRequest() {
     <p class="lead">В первой колонке должны стоять артикулы, а во второй - количество запчастей</p>
     <p class="fw-bold">Цены даны по сегодняшнему курсу евро ЦБ</p>
     <p v-if="status">{{ status }}</p>
-    <div class="col-12">
-      <a v-if="downloadLink" :href="downloadLink" download="Запчастица_Расценки.xlsx" class="btn btn-primary w-100">
+    <div class="col-12 mb-2">
+      <a v-if="downloadLink" :href="downloadLink" download="Запчастица_Расценки.xlsx" class="btn btn-primary w-75">
     Скачать таблицу цен</a>
+      <p>Если расценки подходят, вы можете разместить заказ немедленно</p>
+      <a v-if="downloadLink" :href="orderLink" class="btn btn-info w-75">
+    Заказать!</a>
     </div>
   </div>
   <div class="col-lg-6">
