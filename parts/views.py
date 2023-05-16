@@ -90,7 +90,7 @@ class PartViewSet(ListRetrieveModelMixin):
 
         quotes.seek(0)
 
-        with open(f'{request.user.pk}_order.xlsx', 'wb+') as destination:
+        with open(f'last_orders/{request.user.pk}_order.xlsx', 'wb+') as destination:
             destination.write(quotes.getbuffer())
 
         return FileResponse(
