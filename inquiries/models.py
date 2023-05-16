@@ -13,3 +13,4 @@ class Inquiry(models.Model):
     part = models.CharField(max_length=32)
     amount = models.IntegerField()
     inquiry_date = models.DateTimeField()
+    made_into_order = models.BooleanField(default=False)
