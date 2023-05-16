@@ -1,7 +1,7 @@
 from celery import shared_task
-from parts.models import Part
-from inquiries.models import Inquiry
 from django.utils import timezone
+
+from inquiries.models import Inquiry
 
 
 @shared_task

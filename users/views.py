@@ -9,10 +9,9 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from users.serializers import (CustomTokenObtainPairSerializer,
                                CustomUserRegisterSerializer, UserSerializer)
-
-from .permissions import AnonCreateAuthReadUpdate
 from users.tasks import notify_supplier
 
+from .permissions import AnonCreateAuthReadUpdate
 
 User = get_user_model()
 
@@ -49,7 +48,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user.confirmation_token = None
         user.save()
         refresh = RefreshToken.for_user(user)
-        
+
         notify_supplier.delay(user.entity, user.email)
         return response.Response({
             'refresh': str(refresh), 'access': str(refresh.access_token),

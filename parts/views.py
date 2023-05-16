@@ -3,17 +3,17 @@ from http import HTTPStatus
 from django.http import FileResponse
 from rest_framework import permissions, response, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 
 from core.views import parse_quotes_request, prepare_quotes
+from inquiries.tasks import save_inquiry
 from parts.models import Part
 from parts.serializers import PartSerializer, PriceListSerializer
+from parts.tasks import send_order
 from plans.permissions import IsSupplier
 
 from .permissions import IsOnPlanPermission
-from rest_framework.exceptions import ValidationError
-from inquiries.tasks import save_inquiry
-from parts.tasks import send_order
 
 
 class ListRetrieveModelMixin(
@@ -83,19 +83,21 @@ class PartViewSet(ListRetrieveModelMixin):
             raise ValidationError(
                 detail={'file': 'В файле содержатся ошибки'},
                 code=HTTPStatus.BAD_REQUEST)
-        
+
         save_inquiry.delay(quote_requests, request.user.pk)
 
         quotes = prepare_quotes(quote_requests, request.user)
 
         quotes.seek(0)
 
-        with open(f'last_orders/{request.user.pk}_order.xlsx', 'wb+') as destination:
+        with open(
+            f'last_orders/{request.user.pk}_order.xlsx', 'wb+'
+        ) as destination:
             destination.write(quotes.getbuffer())
 
         return FileResponse(
             quotes, as_attachment=True, filename='Quotes.xlsx')
-    
+
     @action(
         detail=False, methods=['post'],
         permission_classes=[IsOnPlanPermission]

@@ -18,7 +18,7 @@ class UsersPlanSerializer(serializers.Serializer):
 class FloatMultiplier(serializers.Field):
     def to_representation(self, value):
         return float(value)
-    
+
     def to_internal_value(self, data):
         return data
 

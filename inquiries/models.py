@@ -1,7 +1,5 @@
-from django.db import models
 from django.contrib.auth import get_user_model
-from parts.models import Part
-
+from django.db import models
 
 User = get_user_model()
 

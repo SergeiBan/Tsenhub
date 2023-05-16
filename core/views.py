@@ -1,14 +1,15 @@
+import decimal
 import io
+import math
+from datetime import timedelta
 
 import pandas as pd
-from django.apps import apps
 import requests
+from django.apps import apps
 from django.utils import timezone
-from rates.models import Rate
-import math
 from rest_framework import exceptions, status
-import decimal
-from datetime import timedelta
+
+from rates.models import Rate
 
 
 def parse_pricelist(pricelist):
@@ -77,16 +78,16 @@ def choose_rate(last_rate_db):
     ):
         fresh_rate = get_rate()
         Rate.objects.create(currency='EUR', rate=fresh_rate)
-    
+
     elif last_rate_db.date == today:
         fresh_rate = last_rate_db.rate
-    
+
     elif (
         last_rate_db.date == yesterday and
         last_rate_db.date.hour > 12 and
         timezone.now().hour < 12
     ):
-        fresh_rate = last_rate_db.rate        
+        fresh_rate = last_rate_db.rate
 
     else:
         fresh_rate = get_rate()

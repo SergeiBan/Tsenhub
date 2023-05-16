@@ -1,3 +1,5 @@
+from email.header import Header
+
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
@@ -5,7 +7,6 @@ from django.db import models
 
 from plans.models import Plan
 from users.managers import CustomUserManager
-from email.header import Header
 
 ROLE_CHOICES = (
     ('seeker', 'покупатель'),
