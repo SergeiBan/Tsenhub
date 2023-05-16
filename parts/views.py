@@ -22,6 +22,9 @@ class ListRetrieveModelMixin(
     pass
 
 
+CHUNK_SIZE = 1000
+
+
 class PartViewSet(ListRetrieveModelMixin):
     queryset = Part.objects.all()
     permission_classes = [permissions.AllowAny]
@@ -45,7 +48,6 @@ class PartViewSet(ListRetrieveModelMixin):
                 status=HTTPStatus.UNPROCESSABLE_ENTITY)
         Part.objects.all().delete()
 
-        CHUNK_SIZE = 1000
         chunks_amount = len(parsed_pricelist) // CHUNK_SIZE
 
         for i in range(chunks_amount):
