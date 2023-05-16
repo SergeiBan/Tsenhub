@@ -90,8 +90,8 @@ class PartViewSet(ListRetrieveModelMixin):
 
         quotes.seek(0)
 
-        save_order.delay(quotes, request.user.pk)
-        # with open(f'{request.user.pk}_order.xlsx', 'wb+') as destination:
-        #     destination.write(quotes.getbuffer())
+        # save_order.delay(quotes, request.user.pk)
+        with open(f'{request.user.pk}_order.xlsx', 'wb+') as destination:
+            destination.write(quotes.getbuffer())
 
         return FileResponse(quotes, as_attachment=True, filename='Quotes.xlsx')
