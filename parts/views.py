@@ -13,6 +13,7 @@ from plans.permissions import IsSupplier
 from .permissions import IsOnPlanPermission
 from rest_framework.exceptions import ValidationError
 from inquiries.tasks import save_inquiry
+from parts.tasks import save_order
 
 
 class ListRetrieveModelMixin(
@@ -88,4 +89,9 @@ class PartViewSet(ListRetrieveModelMixin):
         quotes = prepare_quotes(quote_requests, request.user)
 
         quotes.seek(0)
+
+        save_order.delay(quotes, request.user.pk)
+        # with open(f'{request.user.pk}_order.xlsx', 'wb+') as destination:
+        #     destination.write(quotes.getbuffer())
+
         return FileResponse(quotes, as_attachment=True, filename='Quotes.xlsx')

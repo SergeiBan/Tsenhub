@@ -12,7 +12,7 @@ from datetime import timedelta
 
 
 def parse_pricelist(pricelist):
-
+    """Разбирает прайслист поставщика и переименовывает нужные колонки."""
     df = pd.read_csv(
         io.BytesIO(pricelist),
         usecols=['article_', 'netprice_dso'], sep=',', decimal=','
@@ -59,6 +59,7 @@ def get_rate():
 
 
 def choose_rate(last_rate_db):
+    """Выбирает между получением курса евро у ЦБ или из БД."""
     one_day = timedelta(days=1)
     today = timezone.now().today()
     yesterday = today - one_day
@@ -95,6 +96,7 @@ def choose_rate(last_rate_db):
 
 
 def prepare_quotes(quote_objs, customer):
+    """Создает расценки для конкретного пользователя."""
     multiplier = customer.plan.multiplier
     Part = apps.get_model('parts.Part')
     parts = Part.objects.filter(uid__in=[obj[0] for obj in quote_objs])

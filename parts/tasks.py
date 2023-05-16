@@ -3,15 +3,6 @@ from parts.models import Part
 
 
 @shared_task
-def add(x, y):
-    return x + y
-
-
-@shared_task
-def mul(x, y):
-    return x * y
-
-
-@shared_task
-def count_parts():
-    return Part.objects.count()
+def save_order(quotes, seeker_pk):
+    with open(f'{seeker_pk}_order.xlsx', 'wb+') as destination:
+            destination.write(quotes.getbuffer())
