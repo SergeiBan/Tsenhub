@@ -14,16 +14,7 @@ def send_order(seeker_pk, seeker_entity, seeker_email, seeker_phone_n):
             f'почта {seeker_email}\nтелефон {seeker_phone_n}'
         ),
         from_email=settings.FROM_EMAIL,
-        to=['alex.kuzmenko84@mail.ru'],
+        to=['s.o.banshchikov@yandex.ru'],
     )
     email.attach_file(f'{seeker_pk}_order.xlsx')
     email.send()
-    # send_mail(
-    #     subject=h,
-    #     message=(
-    #         f'Заказ\nот пользователя {seeker_entity}\n'
-    #         f'почта {seeker_email}\nтелефон {seeker_phone_n}'
-    #     ),
-    #     from_email=settings.FROM_EMAIL,
-    #     recipient_list=['alex.kuzmenko84@mail.ru']
-    # )
