@@ -8,5 +8,4 @@ class Part(models.Model):
     initial_price = models.DecimalField(max_digits=9, decimal_places=2)
 
     def get_parts(pricelist):
-        pricelist = parse_pricelist(pricelist)
-        return pricelist
+        return parse_pricelist(pricelist)
