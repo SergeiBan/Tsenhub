@@ -6,7 +6,9 @@ import router from '../router';
 const emits = defineEmits(['login'])
 let quote_request_list = ref(null)
 let downloadLink = ref(null)
-let orderLink = '/api/v1/parts/place_order/'
+let orderURL = '/api/v1/parts/place_order/'
+let orderInstruction = ref(
+  'Если расценки подходят, вы можете разместить заказ немедленно')
 const generateURL = '/api/v1/parts/generate_quotes/'
 let access = window.localStorage.getItem('access')
 
@@ -48,10 +50,26 @@ async function sendQuotesRequest() {
       status.value = 'Извините, но при загрузке произошла ошибка'
       return
   }
+  status.value = null
 
   const responseBlob = await response.blob()
   const blobUrl = URL.createObjectURL(responseBlob)
   downloadLink.value = blobUrl;
+}
+
+async function placeOrder() {
+  const headers = {'Authorization': `Bearer ${access}`}
+  const requestOptions = { method: 'POST', headers: headers}
+  let response = await fetch(orderURL, requestOptions)
+
+  if (response['status'] != 201) {
+    response = await tokenUpdatedRequest(orderURL, requestOptions)
+  }
+  if (response['status'] == 201) {
+    orderInstruction.value = 'Заказ отправлен!'
+  } else {
+    orderInstruction.value = 'При отправке заказа возникла ошибка!'
+  }
 }
 
 </script>
@@ -77,10 +95,10 @@ async function sendQuotesRequest() {
     <p class="fw-bold">Цены даны по сегодняшнему курсу евро ЦБ</p>
     <p v-if="status">{{ status }}</p>
     <div class="col-12 mb-2">
-      <a v-if="downloadLink" :href="downloadLink" download="Запчастица_Расценки.xlsx" class="btn btn-primary w-75">
+      <a v-if="downloadLink" :href="downloadLink" download="Запчастица_Расценки.xlsx" class="btn btn-primary w-75 mb-2">
     Скачать таблицу цен</a>
-      <p>Если расценки подходят, вы можете разместить заказ немедленно</p>
-      <a v-if="downloadLink" :href="orderLink" class="btn btn-info w-75">
+      <p v-if="downloadLink">{{ orderInstruction }}</p>
+      <a v-if="downloadLink" :href="orderLink" class="btn btn-info w-75" @click="placeOrder">
     Заказать!</a>
     </div>
   </div>
