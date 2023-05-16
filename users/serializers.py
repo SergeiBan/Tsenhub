@@ -18,6 +18,12 @@ class UsernameField(serializers.Field):
         return f'{data} {timezone.now()}'
 
 
+ALLOWED_CHARS = {
+            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '_',
+            '(', ')', ' '
+        }
+
+
 class CustomUserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -25,10 +31,6 @@ class CustomUserRegisterSerializer(serializers.ModelSerializer):
         fields = ('email', 'phone_number', 'entity', 'password')
 
     def validate_phone_number(self, value):
-        ALLOWED_CHARS = {
-            '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '_',
-            '(', ')', ' '
-        }
         for char in value:
             if char not in ALLOWED_CHARS:
                 raise serializers.ValidationError(
