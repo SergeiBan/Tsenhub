@@ -16,5 +16,5 @@ def send_order(seeker_pk, seeker_entity, seeker_email, seeker_phone_n):
         from_email=settings.FROM_EMAIL,
         to=['alex.kuzmenko84@mail.ru'],
     )
-    email.attach_file(f'/last_orders/{seeker_pk}_order.xlsx')
+    email.attach_file(f'last_orders/{seeker_pk}_order.xlsx')
     email.send()
