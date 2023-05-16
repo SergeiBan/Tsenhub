@@ -9,7 +9,7 @@ def send_order(seeker_pk, seeker_entity, seeker_email, seeker_phone_n):
     h = Header('Заказ на Запчастице', charset='utf-8')
     email = EmailMessage(
         subject=h,
-        message=(
+        body=(
             f'Заказ\nот пользователя {seeker_entity}\n'
             f'почта {seeker_email}\nтелефон {seeker_phone_n}'
         ),
