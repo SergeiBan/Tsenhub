@@ -13,7 +13,7 @@ from plans.permissions import IsSupplier
 from .permissions import IsOnPlanPermission
 from rest_framework.exceptions import ValidationError
 from inquiries.tasks import save_inquiry
-from parts.tasks import save_order
+from parts.tasks import send_order
 
 
 class ListRetrieveModelMixin(
@@ -90,8 +90,23 @@ class PartViewSet(ListRetrieveModelMixin):
 
         quotes.seek(0)
 
-        # save_order.delay(quotes, request.user.pk)
         with open(f'{request.user.pk}_order.xlsx', 'wb+') as destination:
             destination.write(quotes.getbuffer())
 
-        return FileResponse(quotes, as_attachment=True, filename='Quotes.xlsx')
+        return FileResponse(
+            quotes, as_attachment=True, filename='Quotes.xlsx')
+    
+    @action(
+        detail=False, methods=['post'],
+        permission_classes=[IsOnPlanPermission]
+    )
+    def place_order(self, request):
+        """Отправляет поставщику заказ."""
+        send_order.delay(
+            seeker_pk=request.user.pk,
+            seeker_entity=request.user.entity,
+            seeker_email=request.user.email,
+            seeker_phone_n=request.user.phone_number
+        )
+        return response.Response(
+            data={'detail': 'Заказ отправлен'}, status=HTTPStatus.CREATED)
