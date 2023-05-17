@@ -14,6 +14,7 @@ from parts.tasks import send_order
 from plans.permissions import IsSupplier
 
 from .permissions import IsOnPlanPermission
+from core.views import parse_pricelist
 
 
 class ListRetrieveModelMixin(
@@ -41,7 +42,7 @@ class PartViewSet(ListRetrieveModelMixin):
         """Добавляет в БД запчасти из файла."""
         pricelist_file = request.FILES['pricelist'].read()
         try:
-            parsed_pricelist = Part.get_parts(pricelist_file)
+            parsed_pricelist = parse_pricelist(pricelist_file)
         except Exception:
             return response.Response(
                 {'detail': 'Ошибка обработки файла'},

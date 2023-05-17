@@ -41,8 +41,10 @@ def parse_quotes_request(quotes_request_file):
     return df.to_dict('records')
 
 
+CB_URL = 'https://www.cbr-xml-daily.ru/daily_json.js'
+
+
 def get_rate():
-    CB_URL = 'https://www.cbr-xml-daily.ru/daily_json.js'
     try:
         response = requests.get(CB_URL).json()
     except Exception:
