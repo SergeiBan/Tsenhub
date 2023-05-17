@@ -101,8 +101,8 @@ def choose_rate(last_rate_db):
 def prepare_quotes(quote_objs, customer):
     """Создает расценки для конкретного пользователя."""
     multiplier = customer.plan.multiplier
-    Part = apps.get_model('parts.Part')
-    parts = Part.objects.filter(uid__in=[obj[0] for obj in quote_objs])
+    part_model = apps.get_model('parts.Part')
+    parts = part_model.objects.filter(uid__in=[obj[0] for obj in quote_objs])
     parts = dict(parts.values_list('uid', 'initial_price'))
     result_parts = []
 

@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 
-from core.views import parse_quotes_request, prepare_quotes
+from core.views import parse_pricelist, parse_quotes_request, prepare_quotes
 from inquiries.tasks import save_inquiry
 from parts.models import Part
 from parts.serializers import PartSerializer, PriceListSerializer
@@ -14,7 +14,6 @@ from parts.tasks import send_order
 from plans.permissions import IsSupplier
 
 from .permissions import IsOnPlanPermission
-from core.views import parse_pricelist
 
 
 class ListRetrieveModelMixin(
