@@ -17,18 +17,22 @@ onMounted(async () => {
 
 <template>
 
-  <header class="row mb-5">
-    <div class="col">
-      <nav class="nav navbar-light navbar-expand-lg bg-light justify-content-between">
+  <header class="row mb-1">
+    <div class="col-12">
+      <nav class="nav navbar-light navbar-expand-lg bg-light justify-content-between mb-1">
         <RouterLink v-if="is_logged == true && role == 'supplier'" to="/users-plans" class="nav-item nav-link">Назначить тариф</RouterLink>
         <RouterLink v-if="is_logged == true && role == 'supplier'" to="/add-pricelist" class="nav-item nav-link">Добавить прайслист</RouterLink>
         <RouterLink v-if="is_logged == true && role == 'supplier'" to="/edit-plans" class="nav-item nav-link">Тарифы</RouterLink>
-        <RouterLink v-if="is_logged == true" to="/ask-quotes" class="nav-item nav-link">Получить цены</RouterLink>
+        <RouterLink v-if="is_logged == true" to="/ask-quotes" class="nav-item nav-link">Цены и заказ</RouterLink>
         
         <RouterLink v-if="is_logged == true" to="/logout" class="nav-item nav-link">Выйти</RouterLink>
         <RouterLink v-if="is_logged == false" to="/register" class="nav-item nav-link">Впервые? Зарегистрируйся!</RouterLink>
         <RouterLink v-if="is_logged == false" to="/login" class="nav-item nav-link">Вход</RouterLink>
       </nav>
+    </div>
+    <div class="col-12">
+      <p class="lead"><b>Запчасти для John Deere!</b><br>
+        На сельскохозяйственные, строительные и лесозаготовительные машины.</p>
     </div>
   </header>
   <main class="row">

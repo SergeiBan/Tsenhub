@@ -8,7 +8,7 @@ THIS_HOST = 'xn--80aaazh4bpi1bf.xn--p1ai'
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'web', '172.17.0.1', THIS_HOST]
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1', f'https://{THIS_HOST}']
