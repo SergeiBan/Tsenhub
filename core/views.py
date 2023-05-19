@@ -119,6 +119,8 @@ def prepare_quotes(quote_objs, customer):
         else:
             piece_price_rub = current_price * (fresh_rate + 3)
             price_multiplied = math.ceil(piece_price_rub * multiplier)
+            if price_multiplied % 10 > 0:
+                price_multiplied += (10 - price_multiplied % 10)
             new_part['Цена за единицу'] = price_multiplied
             new_part['Количество'] = obj[1]
             new_part['Итого'] = price_multiplied * obj[1]
