@@ -60,5 +60,6 @@ jobs:
             sudo docker compose down -v
             sudo docker image rm sergeiban/zapchastitsa
             sudo docker pull sergeiban/zapchastitsa
+            cd zapchastitsa
             sudo docker compose up --build
 
