@@ -1,4 +1,4 @@
-![zapchastitsa workflow](https://github.com/sergeiban/tsenhub/actions/workflows/main.yml/badge.svg)
+<!-- ![zapchastitsa workflow](https://github.com/sergeiban/tsenhub/actions/workflows/main.yml/badge.svg) -->
 
 # Запчасти́ца
 
@@ -25,7 +25,7 @@ Python 3.11, Django 4.1, djangorestframework 3.14
 
 Ассортимент должен быть значительно расширен. Возможно добавление других брэндов.
 
-CI/CD уже в процессе.
+Добавление аналитики для поставщика - в процессе.
 
 ## Стэк технологий
 
