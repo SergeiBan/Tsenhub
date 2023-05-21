@@ -1,3 +1,4 @@
+![zapchastitsa workflow](https://github.com/sergeiban/tsenhub/actions/workflows/main.yml/badge.svg)
 
 # Запчасти́ца
 
