@@ -45,4 +45,20 @@ jobs:
         with:
           push: true
           tags: sergeiban/zapchastitsa:latest
+  
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build_and_push_to_docker_hub
+    steps:
+      - name: ssh-ing to prod
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          script: |
+            sudo docker compose down -v
+            sudo docker image rm sergeiban/zapchastitsa
+            sudo docker pull sergeiban/zapchastitsa
+            sudo docker compose up --build
 
