@@ -15,7 +15,8 @@ def parse_pricelist(pricelist):
     """Разбирает прайслист поставщика и переименовывает нужные колонки."""
     df = pd.read_csv(
         io.BytesIO(pricelist),
-        usecols=['article_', 'netprice_dso'], sep=',', decimal=','
+        usecols=['article_', 'netprice_dso'],
+        sep=','
     )
     df.sort_values(
         by=['article_', 'netprice_dso'], ascending=False, inplace=True)
