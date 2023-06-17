@@ -1,4 +1,3 @@
-import decimal
 import io
 import math
 from datetime import timedelta
@@ -10,7 +9,6 @@ from django.utils import timezone
 from rest_framework import exceptions, status
 
 from rates.models import Rate
-import decimal
 
 
 def parse_pricelist(pricelist):
