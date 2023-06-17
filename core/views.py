@@ -10,6 +10,7 @@ from django.utils import timezone
 from rest_framework import exceptions, status
 
 from rates.models import Rate
+import decimal
 
 
 def parse_pricelist(pricelist):
@@ -21,6 +22,8 @@ def parse_pricelist(pricelist):
     df.sort_values(
         by=['article_', 'netprice_dso'], ascending=False, inplace=True)
     df.drop_duplicates(subset=['article_'], inplace=True)
+    df['netprice_dso'] = df['netprice_dso'].replace(
+        {',': '.', '#Н/Д': '0'}, regex=True)
     df.rename(
         columns={'article_': 'uid', 'netprice_dso': 'initial_price'},
         inplace=True
