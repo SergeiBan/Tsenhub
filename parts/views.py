@@ -62,7 +62,6 @@ class PartViewSet(ListRetrieveModelMixin):
                     i*CHUNK_SIZE:(i+1)*CHUNK_SIZE
                 ]
             )
-            print(parsed_pricelist[0], flush=True)
             Part.objects.bulk_create(new_part_objs)
 
         return response.Response(data={'Файл получен'}, status=HTTPStatus.OK)
